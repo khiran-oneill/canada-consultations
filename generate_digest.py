@@ -86,6 +86,29 @@ BLOCKLIST = [
     # ── Broadcasting & telecom technical ──────────────────────────────────────
     "radio apparatus",                # Equipment technical standards
 
+    # ── Transport technical ───────────────────────────────────────────────────
+    "dangerous goods",                # Transport of Dangerous Goods exemptions
+    "airspace",                       # Aviation airspace technical designations
+    "vessel construction",            # Marine vessel technical standards
+
+    # ── More agriculture ──────────────────────────────────────────────────────
+    "fertilizer",                     # Specific fertilizer composition rules
+    "grain grading",                  # Grain inspection and grading technical
+    "seed potato",                    # Agricultural seed certification
+
+    # ── More pharmaceutical / health products ─────────────────────────────────
+    "biologic",                       # Biologic drug technical approvals
+    "therapeutic product",            # Health product technical submissions
+    "occupational exposure limit",    # Workplace chemical exposure thresholds
+
+    # ── Environmental disposal & waste ────────────────────────────────────────
+    "disposal at sea",                # Marine disposal permit applications
+    "sewage system",                  # Small sewage system technical rules
+
+    # ── Gazette housekeeping ──────────────────────────────────────────────────
+    "miscellaneous amendments",       # Regulatory housekeeping notices
+    "corrections and errata",         # Gazette corrections, never substantive
+
     # ── Other narrow technical ────────────────────────────────────────────────
     "calibration",                    # Laboratory/measurement standards
     "tariff item",                    # Customs tariff technical amendments
