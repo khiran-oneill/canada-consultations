@@ -24,6 +24,32 @@ import fetch_ontario
 import fetch_ontario_ca
 import fetch_ola
 
+# ── Content filter ───────────────────────────────────────────────────────────
+#
+# Consultations whose title contains any of these phrases (case-insensitive)
+# are hidden from the main digest and shown only as a collapsed count.
+# Add or remove phrases here to tune what gets filtered out.
+
+BLOCKLIST = [
+    # Species-at-risk documents
+    "recovery strategy",
+    "management plan for",
+    # Technical feed / drug / chemical regulations
+    "feed ingredient",
+    "livestock feed",
+    "veterinary drug",
+    "maximum residue limit",
+    "residue limit",
+    "pest control product",
+]
+
+
+def is_filtered(item: dict) -> bool:
+    """Return True if this item's title matches a blocklist phrase."""
+    title = item.get("title", "").lower()
+    return any(phrase in title for phrase in BLOCKLIST)
+
+
 # ── Urgency helpers ───────────────────────────────────────────────────────────
 
 def _extract_date(deadline_str: str) -> date | None:
@@ -150,21 +176,30 @@ def collect_all() -> dict:
             print(f"    [warning] Failed — skipping this source: {e}", file=sys.stderr)
             items = []
 
-        # Tag each item with urgency for colour-coding
+        # Split into shown and filtered, tag shown items with urgency
+        shown = []
+        filtered_titles = []
         for item in items:
-            item["_urgency"] = urgency(item)
+            if is_filtered(item):
+                filtered_titles.append(item.get("title", ""))
+            else:
+                item["_urgency"] = urgency(item)
+                shown.append(item)
 
         sections.append({
-            "id":      src["id"],
-            "label":   src["label"],
-            "icon":    src["icon"],
-            "color":   src["color"],
-            "note":    src["note"],
-            "entries": items,
-            "count":   len(items),
+            "id":              src["id"],
+            "label":           src["label"],
+            "icon":            src["icon"],
+            "color":           src["color"],
+            "note":            src["note"],
+            "entries":         shown,
+            "count":           len(shown),
+            "filtered_count":  len(filtered_titles),
+            "filtered_titles": filtered_titles,
         })
-        total += len(items)
-        print(f"    -> {len(items)} item(s)")
+        total += len(shown)
+        filtered_note = f", {len(filtered_titles)} filtered" if filtered_titles else ""
+        print(f"    -> {len(shown)} item(s){filtered_note}")
 
     return {"sections": sections, "total": total, "today": date.today()}
 
@@ -357,6 +392,26 @@ TEMPLATE = """<!DOCTYPE html>
       padding: 0.5rem 0;
     }
 
+    /* ── Filtered items disclosure ── */
+    .filtered-note {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #888;
+    }
+    .filtered-note summary {
+      cursor: pointer;
+      padding: 0.3rem 0;
+      list-style: none;
+    }
+    .filtered-note summary::-webkit-details-marker { display: none; }
+    .filtered-note summary::before { content: '+ '; }
+    details[open].filtered-note summary::before { content: '- '; }
+    .filtered-note ul {
+      margin: 0.4rem 0 0.4rem 1.25rem;
+      color: #aaa;
+      line-height: 1.7;
+    }
+
     /* ── Footer ── */
     .page-footer {
       text-align: center;
@@ -492,6 +547,17 @@ TEMPLATE = """<!DOCTYPE html>
 
   {% else %}
     <p class="empty-note">No entries found from this source today.</p>
+  {% endif %}
+
+  {% if sec.filtered_count > 0 %}
+  <details class="filtered-note">
+    <summary>{{ sec.filtered_count }} item{{ 's' if sec.filtered_count != 1 else '' }} not shown (matched keyword filter)</summary>
+    <ul>
+      {% for title in sec.filtered_titles %}
+      <li>{{ title }}</li>
+      {% endfor %}
+    </ul>
+  </details>
   {% endif %}
 
 </section>
