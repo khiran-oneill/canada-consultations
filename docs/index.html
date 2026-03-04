@@ -262,23 +262,6 @@
       margin-right: 0.35rem;
     }
 
-    /* ── Star button ── */
-    .item { position: relative; }
-    .star-btn {
-      position: absolute;
-      top: 0.7rem;
-      right: 0.75rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 0;
-      color: #ccc;
-      line-height: 1;
-      transition: color 0.15s;
-    }
-    .star-btn:hover, .star-btn.starred { color: #E8A020; }
-
     /* ── Change summary pills ── */
     .change-summary {
       display: flex;
@@ -393,7 +376,6 @@
   <button class="filter-btn active" data-urgency="soon"   style="--btn-color:#E87722">&lt;30 days</button>
   <button class="filter-btn active" data-urgency="open"   style="--btn-color:#2E7D32">30+ days</button>
   <button class="filter-btn active" data-urgency="ongoing" style="--btn-color:#6B3A8B">No fixed deadline</button>
-  <button class="filter-btn" id="starred-filter" style="--btn-color:#E8A020">&#9733; Starred</button>
   <div class="search-wrap">
     <input type="search" id="search-input" placeholder="Search consultations..." autocomplete="off">
   </div>
@@ -424,8 +406,6 @@
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="House of Commons Committees|Abuse and Financial Vulnerability of Senior Women" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -489,8 +469,6 @@
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="House of Commons Committees|Pre-Budget Consultations in Advance of the 2026 Budget" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -552,8 +530,6 @@
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="House of Commons Committees|Antimicrobial Resistance" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -617,8 +593,6 @@
 
     <article class="item urgency-urgent">
 
-      <button class="star-btn" data-key="House of Commons Committees|Impacts of the Temporary Foreign Worker Program on the Labour Market" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -680,8 +654,6 @@
     
 
     <article class="item urgency-urgent">
-
-      <button class="star-btn" data-key="House of Commons Committees|The definition of &#34;work&#34; and the use of section 107 in the Canada Labour Code" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -745,8 +717,6 @@
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="House of Commons Committees|Artificial Intelligence" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -803,8 +773,6 @@
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="House of Commons Committees|Governance and Accountability of Federal Science Policy and Institutions" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -888,8 +856,6 @@
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="|Canada Gazette, Part I, Volume 160, Number 9: Maintenance and Repair of Ontario Municipal Drains Regulations" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -949,8 +915,6 @@
     
 
     <article class="item urgency-urgent">
-
-      <button class="star-btn" data-key="|Canada Gazette, Part I, Volume 160, Number 1: Foreign Influence Transparency and Accountability Regulations" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1037,8 +1001,6 @@
 
     <article class="item urgency-urgent">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Proposed Regulations Amending the Firearms Licences Regulations - licence ineligibility and revocation - protection orders" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1100,8 +1062,6 @@ All interested parties, including members of the Canadian public with relevant e
     
 
     <article class="item urgency-urgent">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Public consultation on the West Coast Trail Unit and Pacific Rim National Park Reserve" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1166,8 +1126,6 @@ The West Coast Trail Unit management planning working group—with representativ
 
     <article class="item urgency-urgent">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Regulations Amending the Motor Vehicle Safety Regulations (Theft Protection)" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1227,8 +1185,6 @@ The West Coast Trail Unit management planning working group—with representativ
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on acynonapyr and Kodama Miticide, Proposed Registration Decision PRD2026-03" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1292,8 +1248,6 @@ An evaluation of available scientific information found that, under the approved
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation: Guidelines for Canadian Drinking Water Quality, Haloacetic Acids" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1353,8 +1307,6 @@ An evaluation of available scientific information found that, under the approved
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|General Regulations under the Canada National Marine Conservation Areas Act" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1416,8 +1368,6 @@ An evaluation of available scientific information found that, under the approved
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Updating the Community Plans for Field, B.C. and Lake Louise, Alberta" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1477,8 +1427,6 @@ An evaluation of available scientific information found that, under the approved
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation: Modernizing the framework for clinical trials" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1540,8 +1488,6 @@ An evaluation of available scientific information found that, under the approved
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation: Guidance on asbestos in drinking water" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1601,8 +1547,6 @@ An evaluation of available scientific information found that, under the approved
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on Permitting Pesticide Application by Remotely Piloted Aircraft Systems (RPAS; commonly known as drones) for Products Currently Registered for Aerial Application, Regulatory Proposal PRO2026-01" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1666,8 +1610,6 @@ This document contains the proposed policy for permitting application in Canada.
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Public engagement on how to strengthen federal leadership in emergency management" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1727,8 +1669,6 @@ This document contains the proposed policy for permitting application in Canada.
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Let&#39;s talk Pacific Salmon" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1790,8 +1730,6 @@ This document contains the proposed policy for permitting application in Canada.
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Whitby Harbour Remediation Project" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1851,8 +1789,6 @@ This document contains the proposed policy for permitting application in Canada.
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Stakeholder engagement on potential marine conservation areas in Newfoundland and Labrador Region" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -1914,8 +1850,6 @@ This document contains the proposed policy for permitting application in Canada.
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Fish and Fish Habitat Restoration Priorities for Lake Ontario" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -1975,8 +1909,6 @@ This document contains the proposed policy for permitting application in Canada.
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Fish and Fish Habitat Restoration Priorities for Manitoba Phase 2" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2038,8 +1970,6 @@ This document contains the proposed policy for permitting application in Canada.
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Indigenous Health Equity Fund" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2099,8 +2029,6 @@ This document contains the proposed policy for permitting application in Canada.
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Indigenous Advisory Circle" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2162,8 +2090,6 @@ This document contains the proposed policy for permitting application in Canada.
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Stakeholders&#39; Forum" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2223,8 +2149,6 @@ This document contains the proposed policy for permitting application in Canada.
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Services Consultation Committee" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2286,8 +2210,6 @@ This document contains the proposed policy for permitting application in Canada.
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Youth Advisory Council" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2347,8 +2269,6 @@ This document contains the proposed policy for permitting application in Canada.
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Canada-NS and Canada-NL Offshore Renewable Energy Regulations" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2410,8 +2330,6 @@ This document contains the proposed policy for permitting application in Canada.
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Engagement: Proposed Indigenous Ministerial Arrangements Regulations under the Canadian Energy Regulator Act" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2471,8 +2389,6 @@ This document contains the proposed policy for permitting application in Canada.
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Three-year Departmental Accessibility Plan" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2536,8 +2452,6 @@ Public insight into the Department’s plans and processes is essential in ensur
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Domestic Assessment of Product Category Filters for the Green Public Procurement Tool (GPPT)" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2600,8 +2514,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Government of Canada Artificial Intelligence Register" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2661,8 +2573,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Engaging Stakeholders on Economic Abuse" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2724,8 +2634,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Modernization of the Explosives Regulations, 2013" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2785,8 +2693,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Public consultations: Call for submissions regarding Canada’s Annual Report on Human Rights and Free Trade Between Canada and the Republic of Colombia" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2848,8 +2754,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on commercial market factors to be considered in determining fair and reasonable interswitching rates" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -2909,8 +2813,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Release of draft (step 2) ICH E22: General Considerations for Patient Preference Studies" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -2972,8 +2874,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation: Draft guidelines for Canadian drinking water quality, Chlorite and chlorate" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3034,8 +2934,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on the Proposed Code of Practice for Benzophenone" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3095,8 +2993,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation: Proposal to control zuranolone under the Controlled Drugs and Substances Act" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -3160,8 +3056,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation: Removing zuranolone from the Prescription Drug List" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3221,8 +3115,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|REGDOC-2.13.2, Import and Export" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -3284,8 +3176,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|REGDOC-2.13.1, Safeguards and Nuclear Material Accountancy" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3345,8 +3235,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on prohexadione-calcium and its associated end-use products, Proposed Re-evaluation Decision PRVD2026-01" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -3408,8 +3296,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Proposed amendments to the Susceptible species of aquatic animals list" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3469,8 +3355,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|2026-2029 Federal Sustainable Development Strategy" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -3532,8 +3416,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Development of the Canadian Ghost Gear Action Plan" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3593,8 +3475,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultations on the Next Agricultural Policy Framework" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -3656,8 +3536,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Renewal of the 2016 Policy on Results- Engagement with National Indigenous Organizations and Modern Treaty Partners" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3717,8 +3595,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Ministerial Advisory Groups • Recognition  •  Families  • Care and Support • Policy •  Health and Well-being • Service Excellence and Transition" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -3784,8 +3660,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultative document on Credit Risk Management" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3845,8 +3719,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Engagements regarding a potential approach for a jammer exemption order for certain Law Enforcement Agencies." title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -3908,8 +3780,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on Amending the List of Species under the Species at Risk Act: Terrestrial Species January 2026" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -3969,8 +3839,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultative document on Senior Leader Accountability" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4032,8 +3900,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Indian Oil and Gas Regulation Amendments: Environment and Surface" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4093,8 +3959,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|White River First Nations" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4156,8 +4020,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Regulatory Framework Plan" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4217,8 +4079,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Regulated Industry Engagement" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4280,8 +4140,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Marine Planning Process in the Quebec Region" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4341,8 +4199,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Canada in a Changing Climate" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4404,8 +4260,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Participate in the permanent consultation for the revision of the Canadian Research and Development Classification (CRDC)" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4466,8 +4320,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Oceans Protection Plan" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4527,8 +4379,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-urgent">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Census of the Environment Program" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4592,8 +4442,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-urgent">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Air Right Touch Engagement" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4655,8 +4503,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-urgent">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Follow-up discussions with Indigenous organizations consulted during the development of the new Directive on the Management of Real Property" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4720,8 +4566,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-urgent">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|National Capital (NCR) Residency for judges of the Federal Court and Tax Court of Canada" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4783,8 +4627,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-urgent">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Proposed Modification to the Conditions of Licence on Space Debris Mitigation" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4848,8 +4690,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-urgent">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Independent Review of the Preclearance Act, 2016" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -4911,8 +4751,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on Efficiencies, Legislative Amendments, and the Ongoing Impact of the COVID-19 Pandemic" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -4976,8 +4814,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Amendments to Directive No 2R2, Joint Filing, and to various forms" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5039,8 +4875,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-soon">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Amendments to Superintendent&#39;s directives relating to cybersecurity guidelines, minimum requirements and measures for the Licensed Insolvency Trustee community" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -5104,8 +4938,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|REGDOC-3.2.2, Indigenous Engagement" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5167,8 +4999,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on Level 1 and 2 Electric Vehicle Supply Equipment (EVSE) Inspection Specifications and Procedures" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -5232,8 +5062,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Red Tape Review – Canadian Intellectual Property Office" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5295,8 +5123,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Administrative Monetary Penalty System Review" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -5360,8 +5186,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Resilient and Adaptive Fisheries Strategy" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5423,8 +5247,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Amending the Nuclear Liability and Compensation Regulations, pre-publication in CG Part I" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -5488,8 +5310,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on a Technical and Policy, [Licensing] Framework for [Remotely Piloted Aircraft System] Operation in Licensed Spectrum" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5551,8 +5371,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Consultation on Amendments to the Tower Siting Process and Decision on Roaming, Tower sharing and Annual Reporting Requirements for Terrestrial Licences" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -5616,8 +5434,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Amendments to Directive No 11R3, Surplus Income Directive" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5679,8 +5495,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Canada.ca -- Federal Consultations|Changes to Customs Sufferance Warehouse Regulations with regards to timeframes and means for Warehouse Arrival Certification Message (WACM)" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -5796,8 +5610,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Ontario Regulatory Registry|Protected area expansions for Missinaibi Provincial Park and Woodland Caribou Provincial Park" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5862,8 +5674,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Ontario Regulatory Registry|Harmonization of Municipal Road Construction Standards     " title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -5925,8 +5735,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Ontario Regulatory Registry|Proposal to amend Regulations under the Condominium Act, the Land Registration Reform Act, and the Registry Act to increase the types of plans that may be accepted in digital format          " title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -5990,8 +5798,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Ontario Regulatory Registry|Amendments to O. Reg. 148/24 (Entities Not Permitted to Hold Certain Property and Interests) under the Ministry of Infrastructure Act, 2011" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6053,8 +5859,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Ontario Regulatory Registry|Mobile Elevating Work Platform (MEWP) Training for Construction Sector" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -6118,8 +5922,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Ontario Regulatory Registry|Proposed Regulation Amendment Under the Ontario Colleges of Applied Arts and Technology Act" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6181,8 +5983,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Ontario Regulatory Registry|Proposed New Regulations under the Measures Respecting Premises with Illegal Drug Activity Act, 2025 (MRPIDAA). " title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -6271,8 +6071,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-open">
 
-      <button class="star-btn" data-key="Ontario.ca — Consultations|Survey: Share a business-related issue" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6334,8 +6132,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Ontario.ca — Consultations|Survey: Share your challenges" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -6448,8 +6244,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-ongoing">
 
-      <button class="star-btn" data-key="Senate of Canada Committees|Bill S-225 , An Act to establish National Thanadelthur Day" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6508,8 +6302,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-ongoing">
-
-      <button class="star-btn" data-key="Senate of Canada Committees|Supplementary Estimates (C) for the fiscal year ending March 31, 2026" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -6570,8 +6362,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-ongoing">
 
-      <button class="star-btn" data-key="Senate of Canada Committees|Bill S-237 , An Act respecting a Cities and Municipalities Day" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6630,8 +6420,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-ongoing">
-
-      <button class="star-btn" data-key="Senate of Canada Committees|Bill S-216 , An Act to declare the Chignecto Isthmus Dykeland System and related works to be for the general advantage of Canada" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -6692,8 +6480,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-ongoing">
 
-      <button class="star-btn" data-key="Senate of Canada Committees|Examine and report on the current state of court delays in Canada’s criminal justice system following its final report tabled in June 2017, entitled Delaying Justice is Denying Justice: An Urgent Need to Address Lengthy Court Delays in Canada" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6752,8 +6538,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-ongoing">
-
-      <button class="star-btn" data-key="Senate of Canada Committees|Examine and report on the need to modernize and clarify the Criminal Code of Canada and the Controlled Drugs and Substances Act" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -6814,8 +6598,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-ongoing">
 
-      <button class="star-btn" data-key="Senate of Canada Committees|The subject matter of Bill S-216 , An Act to declare the Chignecto Isthmus Dykeland System and related works to be for the general advantage of Canada" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6874,8 +6656,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-ongoing">
-
-      <button class="star-btn" data-key="Senate of Canada Committees|Bill C-12 , An Act respecting certain measures relating to the security of Canada&#39;s borders and the integrity of the Canadian immigration system and respecting other related security measures" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -6936,8 +6716,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-ongoing">
 
-      <button class="star-btn" data-key="Senate of Canada Committees|The subject matter of Parts 5, 6, 7 and 8 of Bill C-12 , An Act respecting certain measures relating to the security of Canada&#39;s borders and the integrity of the Canadian immigration system and respecting other related security measures" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -6996,8 +6774,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-ongoing">
-
-      <button class="star-btn" data-key="Senate of Canada Committees|The subject matter of Part 4 of Bill C-4 , An Act respecting certain affordability measures for Canadians and another measure" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -7058,8 +6834,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-ongoing">
 
-      <button class="star-btn" data-key="Senate of Canada Committees|Bill C-4 , An Act respecting certain affordability measures for Canadians and another measure" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -7118,8 +6892,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-ongoing">
-
-      <button class="star-btn" data-key="Senate of Canada Committees|Examine and report on the impact of artificial intelligence on human rights and economic security in Canada, especially in relation to vulnerable groups and the international human right to work" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -7205,8 +6977,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
     <article class="item urgency-soon">
 
-      <button class="star-btn" data-key="Department of Finance Canada|Consultation on the possibility of introducing a domestic content requirement as part of the Clean Electricity investment tax credit and the Clean Technology investment tax credit" title="Save for later">&#9734;</button>
-
       
       <div class="item-title">
         
@@ -7266,8 +7036,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     
 
     <article class="item urgency-open">
-
-      <button class="star-btn" data-key="Department of Finance Canada|Consultations on Canada’s Automotive Remission Framework" title="Save for later">&#9734;</button>
 
       
       <div class="item-title">
@@ -7347,29 +7115,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 <script>
   // ── State ─────────────────────────────────────────────────────────────────
   var activeUrgencies = new Set(['urgent', 'soon', 'open', 'ongoing']);
-  var showOnlyStarred = false;
-
-  // ── Starred items (localStorage) ──────────────────────────────────────────
-  function isStarred(key) { return localStorage.getItem('star::' + key) === '1'; }
-  function toggleStar(key) {
-    if (isStarred(key)) { localStorage.removeItem('star::' + key); }
-    else                { localStorage.setItem('star::' + key, '1'); }
-  }
-
-  document.querySelectorAll('.star-btn').forEach(function(btn) {
-    if (isStarred(btn.dataset.key)) {
-      btn.innerHTML = '&#9733;';
-      btn.classList.add('starred');
-    }
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      toggleStar(btn.dataset.key);
-      var starred = isStarred(btn.dataset.key);
-      btn.classList.toggle('starred', starred);
-      btn.innerHTML = starred ? '&#9733;' : '&#9734;';
-      updateVisibility();
-    });
-  });
 
   // ── Master visibility function ─────────────────────────────────────────────
   function updateVisibility() {
@@ -7378,30 +7123,20 @@ Zuranolone is available in Canada by prescription only. This would continue to b
       var urgencyClass = Array.from(item.classList)
             .find(function(c) { return c.startsWith('urgency-'); }) || '';
       var urgency   = urgencyClass.replace('urgency-', '');
-      var starBtn   = item.querySelector('.star-btn');
       var urgencyOk = activeUrgencies.has(urgency);
       var textOk    = !term || item.textContent.toLowerCase().includes(term);
-      var starOk    = !showOnlyStarred || (starBtn && starBtn.classList.contains('starred'));
-      item.style.display = (urgencyOk && textOk && starOk) ? '' : 'none';
+      item.style.display = (urgencyOk && textOk) ? '' : 'none';
     });
   }
 
   // ── Urgency filter buttons ─────────────────────────────────────────────────
   document.querySelectorAll('.filter-btn[data-urgency]').forEach(function(btn) {
-    if (btn.id === 'starred-filter') return;
     btn.addEventListener('click', function() {
       btn.classList.toggle('active');
       if (btn.classList.contains('active')) { activeUrgencies.add(btn.dataset.urgency); }
       else                                  { activeUrgencies.delete(btn.dataset.urgency); }
       updateVisibility();
     });
-  });
-
-  // ── Starred filter ─────────────────────────────────────────────────────────
-  document.getElementById('starred-filter').addEventListener('click', function() {
-    showOnlyStarred = !showOnlyStarred;
-    this.classList.toggle('active', showOnlyStarred);
-    updateVisibility();
   });
 
   // ── Search ─────────────────────────────────────────────────────────────────
