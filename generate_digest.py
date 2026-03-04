@@ -583,7 +583,7 @@ TEMPLATE = """<!DOCTYPE html>
   <span class="filter-label">Show:</span>
   <button class="filter-btn active" data-urgency="urgent" style="--btn-color:#C8102E">Closes &lt;7 days</button>
   <button class="filter-btn active" data-urgency="soon"   style="--btn-color:#E87722">&lt;30 days</button>
-  <button class="filter-btn active" data-urgency="open"   style="--btn-color:#2E7D32">Open</button>
+  <button class="filter-btn active" data-urgency="open"   style="--btn-color:#2E7D32">30+ days</button>
   <button class="filter-btn active" data-urgency="ongoing" style="--btn-color:#6B3A8B">No fixed deadline</button>
 </div>
 </div>{# end .sticky-bar #}
