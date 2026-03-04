@@ -587,23 +587,6 @@ TEMPLATE = """<!DOCTYPE html>
       margin-right: 0.35rem;
     }
 
-    /* ── Star button ── */
-    .item { position: relative; }
-    .star-btn {
-      position: absolute;
-      top: 0.7rem;
-      right: 0.75rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 0;
-      color: #ccc;
-      line-height: 1;
-      transition: color 0.15s;
-    }
-    .star-btn:hover, .star-btn.starred { color: #E8A020; }
-
     /* ── Change summary pills ── */
     .change-summary {
       display: flex;
@@ -706,7 +689,6 @@ TEMPLATE = """<!DOCTYPE html>
   <button class="filter-btn active" data-urgency="soon"   style="--btn-color:#E87722">&lt;30 days</button>
   <button class="filter-btn active" data-urgency="open"   style="--btn-color:#2E7D32">30+ days</button>
   <button class="filter-btn active" data-urgency="ongoing" style="--btn-color:#6B3A8B">No fixed deadline</button>
-  <button class="filter-btn" id="starred-filter" style="--btn-color:#E8A020">&#9733; Starred</button>
   <div class="search-wrap">
     <input type="search" id="search-input" placeholder="Search consultations..." autocomplete="off">
   </div>
@@ -737,8 +719,6 @@ TEMPLATE = """<!DOCTYPE html>
     {% set primary_url = item.url or item.study_url or item.committee_url or '' %}
 
     <article class="item urgency-{{ item._urgency }}">
-
-      <button class="star-btn" data-key="{{ item._key | e }}" title="Save for later">&#9734;</button>
 
       {# ── Title ── #}
       <div class="item-title">
@@ -845,29 +825,6 @@ TEMPLATE = """<!DOCTYPE html>
 <script>
   // ── State ─────────────────────────────────────────────────────────────────
   var activeUrgencies = new Set(['urgent', 'soon', 'open', 'ongoing']);
-  var showOnlyStarred = false;
-
-  // ── Starred items (localStorage) ──────────────────────────────────────────
-  function isStarred(key) { return localStorage.getItem('star::' + key) === '1'; }
-  function toggleStar(key) {
-    if (isStarred(key)) { localStorage.removeItem('star::' + key); }
-    else                { localStorage.setItem('star::' + key, '1'); }
-  }
-
-  document.querySelectorAll('.star-btn').forEach(function(btn) {
-    if (isStarred(btn.dataset.key)) {
-      btn.innerHTML = '&#9733;';
-      btn.classList.add('starred');
-    }
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      toggleStar(btn.dataset.key);
-      var starred = isStarred(btn.dataset.key);
-      btn.classList.toggle('starred', starred);
-      btn.innerHTML = starred ? '&#9733;' : '&#9734;';
-      updateVisibility();
-    });
-  });
 
   // ── Master visibility function ─────────────────────────────────────────────
   function updateVisibility() {
@@ -876,30 +833,20 @@ TEMPLATE = """<!DOCTYPE html>
       var urgencyClass = Array.from(item.classList)
             .find(function(c) { return c.startsWith('urgency-'); }) || '';
       var urgency   = urgencyClass.replace('urgency-', '');
-      var starBtn   = item.querySelector('.star-btn');
       var urgencyOk = activeUrgencies.has(urgency);
       var textOk    = !term || item.textContent.toLowerCase().includes(term);
-      var starOk    = !showOnlyStarred || (starBtn && starBtn.classList.contains('starred'));
-      item.style.display = (urgencyOk && textOk && starOk) ? '' : 'none';
+      item.style.display = (urgencyOk && textOk) ? '' : 'none';
     });
   }
 
   // ── Urgency filter buttons ─────────────────────────────────────────────────
   document.querySelectorAll('.filter-btn[data-urgency]').forEach(function(btn) {
-    if (btn.id === 'starred-filter') return;
     btn.addEventListener('click', function() {
       btn.classList.toggle('active');
       if (btn.classList.contains('active')) { activeUrgencies.add(btn.dataset.urgency); }
       else                                  { activeUrgencies.delete(btn.dataset.urgency); }
       updateVisibility();
     });
-  });
-
-  // ── Starred filter ─────────────────────────────────────────────────────────
-  document.getElementById('starred-filter').addEventListener('click', function() {
-    showOnlyStarred = !showOnlyStarred;
-    this.classList.toggle('active', showOnlyStarred);
-    updateVisibility();
   });
 
   // ── Search ─────────────────────────────────────────────────────────────────
