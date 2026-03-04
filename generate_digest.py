@@ -173,6 +173,8 @@ def collect_all() -> dict:
     sections = []
     total = 0
 
+    senate_cutoff = (date.today() - timedelta(days=30)).strftime("%B %d, %Y")
+
     sources = [
         {
             "id":       "hoc",
@@ -233,9 +235,10 @@ def collect_all() -> dict:
             "color":    "#6B3A8B",
             "fetch":    fetch_senate.fetch_studies,
             "note":     (
-                "Showing Senate committee studies referred in the last 30 days. "
-                "Committees accept written briefs at any time during a study — no fixed deadline. "
-                "Email ctm@sen.parl.gc.ca with the study title and committee name."
+                f"Showing only Senate committee studies referred since {senate_cutoff} (last 30 days). "
+                f"Studies referred before that date are not shown here, but may still be active. "
+                f"Senate committees accept written briefs at any time during a study — no fixed deadline. "
+                f"To submit, email ctm@sen.parl.gc.ca with the study title and committee name."
             ),
         },
         {
