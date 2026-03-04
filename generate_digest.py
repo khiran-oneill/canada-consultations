@@ -15,7 +15,7 @@ import re
 from datetime import date, datetime, timedelta
 from jinja2 import Environment, BaseLoader
 
-# ── Import all seven scrapers ─────────────────────────────────────────────────
+# ── Import all eight scrapers ─────────────────────────────────────────────────
 import fetch_gazette
 import fetch_canada_ca
 import fetch_hoc
@@ -23,6 +23,7 @@ import fetch_senate
 import fetch_ontario
 import fetch_ontario_ca
 import fetch_ola
+import fetch_finance
 
 # ── Content filter ───────────────────────────────────────────────────────────
 #
@@ -236,6 +237,14 @@ def collect_all() -> dict:
                 "no fixed deadline. Email ctm@sen.parl.gc.ca with the study title and "
                 "committee name. Showing studies referred in the last 90 days first."
             ),
+        },
+        {
+            "id":       "finance",
+            "label":    "Department of Finance Canada — Consultations",
+            "icon":     "FIN",
+            "color":    "#1D4E2B",
+            "fetch":    fetch_finance.fetch,
+            "note":     "Active public consultations from the Department of Finance Canada.",
         },
     ]
 
@@ -567,7 +576,7 @@ TEMPLATE = """<!DOCTYPE html>
 <!-- ── Page header ─────────────────────────────────────────────────── -->
 <header class="page-header">
   <h1>Canadian Consultations Digest</h1>
-  <div class="subtitle">{{ today.strftime('%A, %B %d, %Y') }} &nbsp;·&nbsp; Seven sources checked</div>
+  <div class="subtitle">{{ today.strftime('%A, %B %d, %Y') }} &nbsp;·&nbsp; Eight sources checked</div>
   <div class="total-badge">{{ total }} item{{ 's' if total != 1 else '' }} found</div>
 </header>
 
@@ -710,7 +719,8 @@ TEMPLATE = """<!DOCTYPE html>
   Generated {{ today.strftime('%B %d, %Y') }} &nbsp;·&nbsp;
   Sources: Canada Gazette Part&nbsp;I &middot; Canada.ca &middot;
   House of Commons &middot; Senate of Canada &middot;
-  Ontario Regulatory Registry &middot; Ontario.ca &middot; Ontario Legislature
+  Ontario Regulatory Registry &middot; Ontario.ca &middot; Ontario Legislature &middot;
+  Department of Finance Canada
 </footer>
 
 <script>
