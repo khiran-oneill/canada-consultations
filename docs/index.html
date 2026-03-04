@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Canadian Consultations Digest — March 03, 2026</title>
+  <title>Canadian Consultations Digest — March 04, 2026</title>
   <style>
     /* ── Reset & base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -164,6 +164,46 @@
     .urgency-open    { --urgency-color: #2E7D32; }
     .urgency-ongoing { --urgency-color: #6B3A8B; }
 
+    /* ── Urgency filter bar — sticky ── */
+    .urgency-filters {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+      padding: 0.55rem 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .urgency-filters .filter-label {
+      font-size: 0.8rem;
+      color: #555;
+      margin-right: 0.2rem;
+    }
+    .filter-btn {
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: inherit;
+      border: 2px solid var(--btn-color);
+      border-radius: 20px;
+      padding: 0.18rem 0.7rem;
+      cursor: pointer;
+      background: var(--btn-color);
+      color: #fff;
+      transition: background 0.15s, color 0.15s;
+      line-height: 1.4;
+    }
+    .filter-btn:not(.active) {
+      background: transparent;
+      color: var(--btn-color);
+    }
+    @media (max-width: 600px) {
+      .urgency-filters { padding: 0.5rem 1rem; }
+    }
+
     /* ── Status pill (Canada.ca planned items) ── */
     .status-planned {
       font-size: 0.72rem;
@@ -184,6 +224,26 @@
       padding: 0.5rem 0;
     }
 
+    /* ── Filtered items disclosure ── */
+    .filtered-note {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #888;
+    }
+    .filtered-note summary {
+      cursor: pointer;
+      padding: 0.3rem 0;
+      list-style: none;
+    }
+    .filtered-note summary::-webkit-details-marker { display: none; }
+    .filtered-note summary::before { content: '+ '; }
+    details[open].filtered-note summary::before { content: '- '; }
+    .filtered-note ul {
+      margin: 0.4rem 0 0.4rem 1.25rem;
+      color: #aaa;
+      line-height: 1.7;
+    }
+
     /* ── Footer ── */
     .page-footer {
       text-align: center;
@@ -194,10 +254,23 @@
       margin-top: 2rem;
     }
 
+    /* ── Collapsible sections ── */
+    .section-header { cursor: pointer; user-select: none; }
+    .section-header:hover { opacity: 0.85; }
+    .section-toggle {
+      margin-left: 0.5rem;
+      font-size: 0.7rem;
+      color: #999;
+      flex-shrink: 0;
+    }
+    .section-body { }
+    .section.collapsed .section-body { display: none; }
+
     @media (max-width: 600px) {
       .page-header { padding: 1.25rem; }
       .toc { padding: 0.5rem 1rem; }
       .content { padding: 0 0.75rem; }
+      .urgency-filters { padding: 0.5rem 1rem; }
     }
   </style>
 </head>
@@ -206,18 +279,18 @@
 <!-- ── Page header ─────────────────────────────────────────────────── -->
 <header class="page-header">
   <h1>Canadian Consultations Digest</h1>
-  <div class="subtitle">Tuesday, March 03, 2026 &nbsp;·&nbsp; Seven sources checked</div>
-  <div class="total-badge">199 items found</div>
+  <div class="subtitle">Wednesday, March 04, 2026 &nbsp;·&nbsp; Seven sources checked</div>
+  <div class="total-badge">188 items found</div>
 </header>
 
-<!-- ── Urgency legend & table of contents ──────────────────────────── -->
+<!-- ── Table of contents ────────────────────────────────────────────── -->
 <nav class="toc">
   
     <a href="#hoc">HC: 7</a>
   
     <a href="#gazette">CG: 2</a>
   
-    <a href="#canada_ca">FED: 85</a>
+    <a href="#canada_ca">FED: 74</a>
   
     <a href="#ontario">ON: 7</a>
   
@@ -227,14 +300,16 @@
   
     <a href="#senate">SEN: 96</a>
   
-  &nbsp;|&nbsp;
-  <span style="font-size:0.82rem;color:#555;padding:0.2rem 0;line-height:1.6">
-    <span style="color:#C8102E;font-weight:700;">&#9646;</span> Closes &lt;7 days &nbsp;
-    <span style="color:#E87722;font-weight:700;">&#9646;</span> &lt;30 days &nbsp;
-    <span style="color:#2E7D32;font-weight:700;">&#9646;</span> Open &nbsp;
-    <span style="color:#6B3A8B;font-weight:700;">&#9646;</span> No fixed deadline
-  </span>
 </nav>
+
+<!-- ── Urgency filter buttons (sticky) ─────────────────────────────── -->
+<div class="urgency-filters">
+  <span class="filter-label">Show:</span>
+  <button class="filter-btn active" data-urgency="urgent" style="--btn-color:#C8102E">Closes &lt;7 days</button>
+  <button class="filter-btn active" data-urgency="soon"   style="--btn-color:#E87722">&lt;30 days</button>
+  <button class="filter-btn active" data-urgency="open"   style="--btn-color:#2E7D32">Open</button>
+  <button class="filter-btn active" data-urgency="ongoing" style="--btn-color:#6B3A8B">No fixed deadline</button>
+</div>
 
 <!-- ── Sections ────────────────────────────────────────────────────── -->
 <main class="content">
@@ -245,7 +320,10 @@
     <span class="section-icon">HC</span>
     <h2>House of Commons — Open Calls for Briefs</h2>
     <span class="section-count">7 items</span>
+    <span class="section-toggle">&#9650;</span>
   </div>
+
+  <div class="section-body">
 
   
   <div class="section-note">Deadline shown is the brief submission deadline.</div>
@@ -282,7 +360,7 @@
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 17, 2026  (45 days remaining)</span>
+            <span class="deadline-badge">April 17, 2026  (44 days remaining)</span>
           </span>
         
 
@@ -343,7 +421,7 @@
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 30, 2026  (58 days remaining)</span>
+            <span class="deadline-badge">April 30, 2026  (57 days remaining)</span>
           </span>
         
 
@@ -404,7 +482,7 @@
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 15, 2026  (12 days remaining)</span>
+            <span class="deadline-badge">March 15, 2026  (11 days remaining)</span>
           </span>
         
 
@@ -465,7 +543,7 @@
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 05, 2026  (2 days remaining)</span>
+            <span class="deadline-badge">March 05, 2026  (1 days remaining)</span>
           </span>
         
 
@@ -526,7 +604,7 @@
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 05, 2026  (2 days remaining)</span>
+            <span class="deadline-badge">March 05, 2026  (1 days remaining)</span>
           </span>
         
 
@@ -673,6 +751,10 @@
 
   
 
+  
+
+  </div>
+
 </section>
 
 <section class="section" id="gazette" style="--section-color: #C8102E">
@@ -680,7 +762,10 @@
     <span class="section-icon">CG</span>
     <h2>Canada Gazette Part I — Proposed Regulations</h2>
     <span class="section-count">2 items</span>
+    <span class="section-toggle">&#9650;</span>
   </div>
+
+  <div class="section-body">
 
   
   <div class="section-note">Comment period opens from the publication date.</div>
@@ -809,79 +894,27 @@
 
   
 
+  
+
+  </div>
+
 </section>
 
 <section class="section" id="canada_ca" style="--section-color: #26374A">
   <div class="section-header">
     <span class="section-icon">FED</span>
     <h2>Canada.ca — Federal Consultations</h2>
-    <span class="section-count">85 items</span>
+    <span class="section-count">74 items</span>
+    <span class="section-toggle">&#9650;</span>
   </div>
+
+  <div class="section-body">
 
   
   <div class="section-note">Showing open consultations with future deadlines, sorted soonest first.</div>
   
 
   
-    
-    
-    
-
-    <article class="item urgency-urgent">
-
-      
-      <div class="item-title">
-        
-          <a href="https://www.veterans.gc.ca/en/about-vac/public-engagement/lets-talk-veterans/consultations/seeking-input-women-veterans-national-women-veterans-day" target="_blank" rel="noopener">National Women Veterans Day</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Veterans Affairs Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 03, 2026  (closes TODAY)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">The information gathered in the following questionnaire will be used to help determine the most suitable date for a “National Women Veterans Day.” This day will provide Canadians with the opportunity to reflect on the sacrifices and achievements of women Veteran’s both at home and abroad. Historically, women’s military contributions have often been overlooked or minimized. This day of recogniti...</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.veterans.gc.ca/en/about-vac/public-engagement/lets-talk-veterans/consultations/seeking-input-women-veterans-national-women-veterans-day" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
     
     
     
@@ -912,7 +945,7 @@
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 04, 2026  (1 days remaining)</span>
+            <span class="deadline-badge">March 04, 2026  (closes TODAY)</span>
           </span>
         
 
@@ -952,65 +985,6 @@ All interested parties, including members of the Canadian public with relevant e
       
       <div class="item-title">
         
-          <a href="https://inspection.canada.ca/en/about-cfia/transparency/consultations-and-engagement/vitamin-e-acetate-0" target="_blank" rel="noopener">Proposed amended livestock feed ingredient – Vitamin E acetate</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Canadian Food Inspection Agency
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 09, 2026  (6 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">We intend to amend the existing SIF description for vitamin E acetate (2-504-007) under subclass 5.4.2 (Vitamins excluding those from fermentation processes) of class 5 (Nutritional ingredients) in part 2 of the CFIT. The amendment to this description includes statements to allow carrier(s) to be added to standardize the vitamin E concentration.</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://inspection.canada.ca/en/about-cfia/transparency/consultations-and-engagement/vitamin-e-acetate-0" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-urgent">
-
-      
-      <div class="item-title">
-        
           <a href="https://parks.canada.ca/pn-np/bc/pacificrim/info/plan/developpement-development/sco-wct" target="_blank" rel="noopener">Public consultation on the West Coast Trail Unit and Pacific Rim National Park Reserve</a>
         
       </div>
@@ -1032,7 +1006,7 @@ All interested parties, including members of the Canadian public with relevant e
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 10, 2026  (7 days remaining)</span>
+            <span class="deadline-badge">March 10, 2026  (6 days remaining)</span>
           </span>
         
 
@@ -1068,7 +1042,7 @@ The West Coast Trail Unit management planning working group—with representativ
     
     
 
-    <article class="item urgency-soon">
+    <article class="item urgency-urgent">
 
       
       <div class="item-title">
@@ -1094,7 +1068,7 @@ The West Coast Trail Unit management planning working group—with representativ
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 11, 2026  (8 days remaining)</span>
+            <span class="deadline-badge">March 11, 2026  (7 days remaining)</span>
           </span>
         
 
@@ -1153,7 +1127,7 @@ The West Coast Trail Unit management planning working group—with representativ
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 12, 2026  (9 days remaining)</span>
+            <span class="deadline-badge">March 12, 2026  (8 days remaining)</span>
           </span>
         
 
@@ -1214,7 +1188,7 @@ An evaluation of available scientific information found that, under the approved
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 13, 2026  (10 days remaining)</span>
+            <span class="deadline-badge">March 13, 2026  (9 days remaining)</span>
           </span>
         
 
@@ -1273,7 +1247,7 @@ An evaluation of available scientific information found that, under the approved
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 15, 2026  (12 days remaining)</span>
+            <span class="deadline-badge">March 15, 2026  (11 days remaining)</span>
           </span>
         
 
@@ -1332,7 +1306,7 @@ An evaluation of available scientific information found that, under the approved
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 16, 2026  (13 days remaining)</span>
+            <span class="deadline-badge">March 16, 2026  (12 days remaining)</span>
           </span>
         
 
@@ -1391,7 +1365,7 @@ An evaluation of available scientific information found that, under the approved
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 20, 2026  (17 days remaining)</span>
+            <span class="deadline-badge">March 20, 2026  (16 days remaining)</span>
           </span>
         
 
@@ -1429,65 +1403,6 @@ An evaluation of available scientific information found that, under the approved
       
       <div class="item-title">
         
-          <a href="https://species-registry.canada.ca/index-en.html#/documents/7LZ1syQXItFTRlqBFnKfT" target="_blank" rel="noopener">Recovery Strategy for the Mountain Sucker (Catostomus platyrhynchus), Milk River populations, in Canada</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Fisheries and Oceans Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 23, 2026  (20 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Fisheries and Oceans Canada will publish the recovery strategy online to seek public comments.</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://species-registry.canada.ca/index-en.html#/documents/7LZ1syQXItFTRlqBFnKfT" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-soon">
-
-      
-      <div class="item-title">
-        
           <a href="https://www.canada.ca/en/health-canada/programs/consultation-guidance-asbestos-drinking-water.html" target="_blank" rel="noopener">Consultation: Guidance on asbestos in drinking water</a>
         
       </div>
@@ -1509,7 +1424,7 @@ An evaluation of available scientific information found that, under the approved
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 24, 2026  (21 days remaining)</span>
+            <span class="deadline-badge">March 24, 2026  (20 days remaining)</span>
           </span>
         
 
@@ -1568,7 +1483,7 @@ An evaluation of available scientific information found that, under the approved
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 25, 2026  (22 days remaining)</span>
+            <span class="deadline-badge">March 25, 2026  (21 days remaining)</span>
           </span>
         
 
@@ -1629,7 +1544,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 27, 2026  (24 days remaining)</span>
+            <span class="deadline-badge">March 27, 2026  (23 days remaining)</span>
           </span>
         
 
@@ -1688,7 +1603,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -1747,7 +1662,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -1806,7 +1721,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -1865,7 +1780,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -1924,7 +1839,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -1983,7 +1898,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2042,7 +1957,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2101,7 +2016,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2160,7 +2075,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2219,7 +2134,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2278,7 +2193,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2337,7 +2252,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2396,7 +2311,7 @@ This document contains the proposed policy for permitting application in Canada.
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2457,7 +2372,7 @@ Public insight into the Department’s plans and processes is essential in ensur
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2518,7 +2433,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2577,7 +2492,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -2636,7 +2551,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 01, 2026  (29 days remaining)</span>
+            <span class="deadline-badge">April 01, 2026  (28 days remaining)</span>
           </span>
         
 
@@ -2674,65 +2589,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
       
       <div class="item-title">
         
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/sedaxane.html" target="_blank" rel="noopener">Consultation on sedaxane, Proposed Maximum Residue Limit PMRL2026-01</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Health Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 05, 2026  (33 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Health Canada’s Pest Management Regulatory Agency (PMRA) invites the public to submit written comments on the proposed MRL for sedaxane up to 75 days from the date of publication of this document (by 5 April 2026).</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/sedaxane.html" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
           <a href="https://otc-cta.gc.ca/eng/consultation/consultation-on-commercial-market-factors-to-be-considered-in-determining-fair-and-reasonable-interswitching-rates" target="_blank" rel="noopener">Consultation on commercial market factors to be considered in determining fair and reasonable interswitching rates</a>
         
       </div>
@@ -2754,7 +2610,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 07, 2026  (35 days remaining)</span>
+            <span class="deadline-badge">April 07, 2026  (34 days remaining)</span>
           </span>
         
 
@@ -2792,65 +2648,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
       
       <div class="item-title">
         
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/1-methylcyclopropene.html" target="_blank" rel="noopener">Consultation on 1-methylcyclopropene, Proposed Maximum Residue Limit PMRL2026-02</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Health Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 11, 2026  (39 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Health Canada's Pest Management Regulatory Agency (PMRA) invites the public to submit written comments on the proposed maximum residue limit (MRL) for 1-methylcyclopropene up to 75 days from the date of publication of this consultation document (by 11 April 2026).</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/1-methylcyclopropene.html" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
           <a href="https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/international-council-harmonisation/consultations-notices.html" target="_blank" rel="noopener">Release of draft (step 2) ICH E22: General Considerations for Patient Preference Studies</a>
         
       </div>
@@ -2872,7 +2669,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 12, 2026  (40 days remaining)</span>
+            <span class="deadline-badge">April 12, 2026  (39 days remaining)</span>
           </span>
         
 
@@ -2910,65 +2707,6 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
       
       <div class="item-title">
         
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/isocycloseram.html" target="_blank" rel="noopener">Consultation on isocycloseram, Proposed Maximum Residue Limit PMRL2026-03</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Health Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 14, 2026  (42 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Health Canada's Pest Management Regulatory Agency (PMRA) invites the public to submit written comments on the proposed maximum residue limit (MRL) for isocycloseram up to 75 days from the date of publication of this consultation document (by 14 April 2026).</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/isocycloseram.html" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
           <a href="https://www.canada.ca/en/health-canada/programs/consultation-draft-guidance-drinking-water-quality-chlorite-chlorate.html" target="_blank" rel="noopener">Consultation: Draft guidelines for Canadian drinking water quality, Chlorite and chlorate</a>
         
       </div>
@@ -2990,7 +2728,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 14, 2026  (42 days remaining)</span>
+            <span class="deadline-badge">April 14, 2026  (41 days remaining)</span>
           </span>
         
 
@@ -3049,7 +2787,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 15, 2026  (43 days remaining)</span>
+            <span class="deadline-badge">April 15, 2026  (42 days remaining)</span>
           </span>
         
 
@@ -3108,7 +2846,7 @@ The purpose of the consultation is to gather stakeholder feedback on the customi
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 18, 2026  (46 days remaining)</span>
+            <span class="deadline-badge">April 18, 2026  (45 days remaining)</span>
           </span>
         
 
@@ -3169,7 +2907,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 18, 2026  (46 days remaining)</span>
+            <span class="deadline-badge">April 18, 2026  (45 days remaining)</span>
           </span>
         
 
@@ -3228,7 +2966,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 19, 2026  (47 days remaining)</span>
+            <span class="deadline-badge">April 19, 2026  (46 days remaining)</span>
           </span>
         
 
@@ -3287,7 +3025,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 19, 2026  (47 days remaining)</span>
+            <span class="deadline-badge">April 19, 2026  (46 days remaining)</span>
           </span>
         
 
@@ -3346,7 +3084,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 19, 2026  (47 days remaining)</span>
+            <span class="deadline-badge">April 19, 2026  (46 days remaining)</span>
           </span>
         
 
@@ -3384,65 +3122,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
       
       <div class="item-title">
         
-          <a href="https://www.canada.ca/en/environment-climate-change/corporate/transparency/consultations/amendments-metal-diamond-mining-effluent-regulations-western-hillside-project.html" target="_blank" rel="noopener">Share your ideas: Amendments to the Metal and Diamond Mining Effluent Regulations for the IOC Western Hillside Project</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Environment and Climate Change Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 24, 2026  (52 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Environment and Climate Change Canada (ECCC) is seeking comments on a proposed authorization under the Metal and Diamond Mining Effluent Regulations (MDMER) for the disposal of mine waste in fish-frequented water bodies at the Carol Mine site.</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.canada.ca/en/environment-climate-change/corporate/transparency/consultations/amendments-metal-diamond-mining-effluent-regulations-western-hillside-project.html" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
           <a href="https://inspection.canada.ca/en/about-cfia/transparency/consultations-and-engagement/aquatic-animal-list-amendment" target="_blank" rel="noopener">Proposed amendments to the Susceptible species of aquatic animals list</a>
         
       </div>
@@ -3464,7 +3143,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 01, 2026  (59 days remaining)</span>
+            <span class="deadline-badge">May 01, 2026  (58 days remaining)</span>
           </span>
         
 
@@ -3523,7 +3202,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 12, 2026  (70 days remaining)</span>
+            <span class="deadline-badge">May 12, 2026  (69 days remaining)</span>
           </span>
         
 
@@ -3561,183 +3240,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
       
       <div class="item-title">
         
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/fluazaindolizine.html" target="_blank" rel="noopener">Consultation on fluazaindolizine, Proposed Maximum Residue Limit PMRL2026-04</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Health Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 12, 2026  (70 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Health Canada is consulting the public and seeking your feedback on proposed maximum residue limit (MRL) increases for the use of fluazaindolizine on low growing berries (crop subgroup 13-07G), leafy vegetables (crop group 4-13) and Brassica head and stem vegetables (crop group 5-13); and new MRLs on small fruits vine climbing except fuzzy kiwifruit (crop subgroup 13-07F),  tree nuts (crop grou...</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/fluazaindolizine.html" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/acynonapyr.html" target="_blank" rel="noopener">Consultation on acynonapyr, Proposed Maximum Residue Limit PMRL2026-05</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Health Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 12, 2026  (70 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Health Canada's Pest Management Regulatory Agency (PMRA) invites the public to submit written comments directly related to this proposed MRL for acynonapyr up to 75 days from the date of publication of this consultation document (by 12 May 2026).</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/acynonapyr.html" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/ethylene-bisdithiocarbamate-fungicides.html" target="_blank" rel="noopener">Consultation on ethylene bisdithiocarbamate fungicides, Proposed Maximum Residue Limit PMRL2026-06</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Health Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 12, 2026  (70 days remaining)</span>
-          </span>
-        
-
-        
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Health Canada's Pest Management Regulatory Agency (PMRA) invites the public to submit written comments on the proposed maximum residue limit (MRL) for ethylene bisdithiocarbamate (EBDC) fungicides up to 75 days from the date of publication of this consultation document (by 12 May 2026).</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="https://www.canada.ca/en/health-canada/services/consumer-product-safety/pesticides-pest-management/public/consultations/proposed-maximum-residue-limit/2026/ethylene-bisdithiocarbamate-fungicides.html" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
           <a href="https://www.dfo-mpo.gc.ca/fisheries-peches/management-gestion/ghostgear-equipementfantome/program-programme/program-programme-eng.html" target="_blank" rel="noopener">Development of the Canadian Ghost Gear Action Plan</a>
         
       </div>
@@ -3759,7 +3261,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 31, 2026  (89 days remaining)</span>
+            <span class="deadline-badge">May 31, 2026  (88 days remaining)</span>
           </span>
         
 
@@ -3818,7 +3320,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">June 30, 2026  (119 days remaining)</span>
+            <span class="deadline-badge">June 30, 2026  (118 days remaining)</span>
           </span>
         
 
@@ -3877,7 +3379,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">June 30, 2026  (119 days remaining)</span>
+            <span class="deadline-badge">June 30, 2026  (118 days remaining)</span>
           </span>
         
 
@@ -3936,7 +3438,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">June 30, 2026  (119 days remaining)</span>
+            <span class="deadline-badge">June 30, 2026  (118 days remaining)</span>
           </span>
         
 
@@ -3999,7 +3501,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">July 29, 2026  (148 days remaining)</span>
+            <span class="deadline-badge">July 29, 2026  (147 days remaining)</span>
           </span>
         
 
@@ -4058,7 +3560,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">August 01, 2026  (151 days remaining)</span>
+            <span class="deadline-badge">August 01, 2026  (150 days remaining)</span>
           </span>
         
 
@@ -4117,7 +3619,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">October 14, 2026  (225 days remaining)</span>
+            <span class="deadline-badge">October 14, 2026  (224 days remaining)</span>
           </span>
         
 
@@ -4176,7 +3678,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">October 31, 2026  (242 days remaining)</span>
+            <span class="deadline-badge">October 31, 2026  (241 days remaining)</span>
           </span>
         
 
@@ -4235,7 +3737,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">December 31, 2026  (303 days remaining)</span>
+            <span class="deadline-badge">December 31, 2026  (302 days remaining)</span>
           </span>
         
 
@@ -4294,7 +3796,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2027  (393 days remaining)</span>
+            <span class="deadline-badge">March 31, 2027  (392 days remaining)</span>
           </span>
         
 
@@ -4353,7 +3855,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">December 31, 2027  (668 days remaining)</span>
+            <span class="deadline-badge">December 31, 2027  (667 days remaining)</span>
           </span>
         
 
@@ -4412,7 +3914,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">December 31, 2027  (668 days remaining)</span>
+            <span class="deadline-badge">December 31, 2027  (667 days remaining)</span>
           </span>
         
 
@@ -4471,7 +3973,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2028  (759 days remaining)</span>
+            <span class="deadline-badge">March 31, 2028  (758 days remaining)</span>
           </span>
         
 
@@ -4530,7 +4032,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 31, 2028  (820 days remaining)</span>
+            <span class="deadline-badge">May 31, 2028  (819 days remaining)</span>
           </span>
         
 
@@ -4589,7 +4091,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">January 27, 2030  (1426 days remaining)</span>
+            <span class="deadline-badge">January 27, 2030  (1425 days remaining)</span>
           </span>
         
 
@@ -4648,7 +4150,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2031  (1854 days remaining)</span>
+            <span class="deadline-badge">March 31, 2031  (1853 days remaining)</span>
           </span>
         
 
@@ -4707,7 +4209,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2024  (closed 702 days ago)</span>
+            <span class="deadline-badge">March 31, 2024  (closed 703 days ago)</span>
           </span>
         
 
@@ -4768,7 +4270,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2024  (closed 702 days ago)</span>
+            <span class="deadline-badge">March 31, 2024  (closed 703 days ago)</span>
           </span>
         
 
@@ -4829,7 +4331,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2024  (closed 702 days ago)</span>
+            <span class="deadline-badge">March 31, 2024  (closed 703 days ago)</span>
           </span>
         
 
@@ -4890,7 +4392,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">September 26, 2025  (closed 158 days ago)</span>
+            <span class="deadline-badge">September 26, 2025  (closed 159 days ago)</span>
           </span>
         
 
@@ -4951,7 +4453,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">December 10, 2025  (closed 83 days ago)</span>
+            <span class="deadline-badge">December 10, 2025  (closed 84 days ago)</span>
           </span>
         
 
@@ -5012,7 +4514,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">January 16, 2026  (closed 46 days ago)</span>
+            <span class="deadline-badge">January 16, 2026  (closed 47 days ago)</span>
           </span>
         
 
@@ -5073,7 +4575,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">March 31, 2026  (28 days remaining)</span>
+            <span class="deadline-badge">March 31, 2026  (27 days remaining)</span>
           </span>
         
 
@@ -5134,7 +4636,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 02, 2026  (30 days remaining)</span>
+            <span class="deadline-badge">April 02, 2026  (29 days remaining)</span>
           </span>
         
 
@@ -5195,7 +4697,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 02, 2026  (30 days remaining)</span>
+            <span class="deadline-badge">April 02, 2026  (29 days remaining)</span>
           </span>
         
 
@@ -5256,7 +4758,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 09, 2026  (37 days remaining)</span>
+            <span class="deadline-badge">April 09, 2026  (36 days remaining)</span>
           </span>
         
 
@@ -5317,7 +4819,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 17, 2026  (45 days remaining)</span>
+            <span class="deadline-badge">April 17, 2026  (44 days remaining)</span>
           </span>
         
 
@@ -5335,67 +4837,6 @@ Zuranolone is available in Canada by prescription only. This would continue to b
       
       
       <div class="item-summary">Measurement Canada is consulting on proposed specifications and test procedures for the verifications/reverification inspections of Level 1 and 2 alternating current (AC) electric vehicle (EV) charging devices that will be used to charge customers based on the amount of electricity (i.e., by kilowatt-hour or kWh) consumed during an EV charge. Comments provided will be used to finalize the requi...</div>
-      
-
-      
-      <div class="item-links">
-        
-          <a href="N/A" target="_blank" rel="noopener">View / Comment</a>
-        
-        
-        
-        
-      </div>
-
-    </article>
-    
-    
-    
-
-    <article class="item urgency-open">
-
-      
-      <div class="item-title">
-        
-          <a href="N/A" target="_blank" rel="noopener">Multi-species Action Plan for the Alberta at-risk Native Trout in Canada</a>
-        
-      </div>
-
-      
-      <div class="item-meta">
-
-        
-        
-        
-        <span>
-          <span class="label">Body:</span>
-          Fisheries and Oceans Canada
-          
-        </span>
-        
-
-        
-        
-          <span>
-            <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 21, 2026  (49 days remaining)</span>
-          </span>
-        
-
-        
-        
-          <span class="status-planned">Planned (not yet open)</span>
-        
-
-        
-        
-
-      </div>
-
-      
-      
-      
-      <div class="item-summary">Fisheries and Oceans Canada will publish the action plan online to seek public comments.</div>
       
 
       
@@ -5439,7 +4880,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">April 30, 2026  (58 days remaining)</span>
+            <span class="deadline-badge">April 30, 2026  (57 days remaining)</span>
           </span>
         
 
@@ -5500,7 +4941,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 01, 2026  (59 days remaining)</span>
+            <span class="deadline-badge">May 01, 2026  (58 days remaining)</span>
           </span>
         
 
@@ -5561,7 +5002,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 01, 2026  (59 days remaining)</span>
+            <span class="deadline-badge">May 01, 2026  (58 days remaining)</span>
           </span>
         
 
@@ -5622,7 +5063,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">May 31, 2026  (89 days remaining)</span>
+            <span class="deadline-badge">May 31, 2026  (88 days remaining)</span>
           </span>
         
 
@@ -5683,7 +5124,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">June 06, 2026  (95 days remaining)</span>
+            <span class="deadline-badge">June 06, 2026  (94 days remaining)</span>
           </span>
         
 
@@ -5744,7 +5185,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">June 06, 2026  (95 days remaining)</span>
+            <span class="deadline-badge">June 06, 2026  (94 days remaining)</span>
           </span>
         
 
@@ -5805,7 +5246,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">October 07, 2026  (218 days remaining)</span>
+            <span class="deadline-badge">October 07, 2026  (217 days remaining)</span>
           </span>
         
 
@@ -5866,7 +5307,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">February 01, 2027  (335 days remaining)</span>
+            <span class="deadline-badge">February 01, 2027  (334 days remaining)</span>
           </span>
         
 
@@ -5901,6 +5342,37 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
   
 
+  
+  <details class="filtered-note">
+    <summary>10 items not shown (matched keyword filter)</summary>
+    <ul>
+      
+      <li>Proposed amended livestock feed ingredient – Vitamin E acetate</li>
+      
+      <li>Recovery Strategy for the Mountain Sucker (Catostomus platyrhynchus), Milk River populations, in Canada</li>
+      
+      <li>Consultation on sedaxane, Proposed Maximum Residue Limit PMRL2026-01</li>
+      
+      <li>Consultation on 1-methylcyclopropene, Proposed Maximum Residue Limit PMRL2026-02</li>
+      
+      <li>Consultation on isocycloseram, Proposed Maximum Residue Limit PMRL2026-03</li>
+      
+      <li>Share your ideas: Amendments to the Metal and Diamond Mining Effluent Regulations for the IOC Western Hillside Project</li>
+      
+      <li>Consultation on fluazaindolizine, Proposed Maximum Residue Limit PMRL2026-04</li>
+      
+      <li>Consultation on acynonapyr, Proposed Maximum Residue Limit PMRL2026-05</li>
+      
+      <li>Consultation on ethylene bisdithiocarbamate fungicides, Proposed Maximum Residue Limit PMRL2026-06</li>
+      
+      <li>Multi-species Action Plan for the Alberta at-risk Native Trout in Canada</li>
+      
+    </ul>
+  </details>
+  
+
+  </div>
+
 </section>
 
 <section class="section" id="ontario" style="--section-color: #00698F">
@@ -5908,7 +5380,10 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     <span class="section-icon">ON</span>
     <h2>Ontario Regulatory Registry — Open Proposals</h2>
     <span class="section-count">7 items</span>
+    <span class="section-toggle">&#9650;</span>
   </div>
+
+  <div class="section-body">
 
   
   <div class="section-note">All proposals currently accepting public comment.</div>
@@ -5945,7 +5420,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">Apr 05, 2026  (33 days remaining)</span>
+            <span class="deadline-badge">Apr 05, 2026  (32 days remaining)</span>
           </span>
         
 
@@ -6008,7 +5483,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">Mar 30, 2026  (27 days remaining)</span>
+            <span class="deadline-badge">Mar 30, 2026  (26 days remaining)</span>
           </span>
         
 
@@ -6069,7 +5544,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">Mar 30, 2026  (27 days remaining)</span>
+            <span class="deadline-badge">Mar 30, 2026  (26 days remaining)</span>
           </span>
         
 
@@ -6130,7 +5605,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">Mar 24, 2026  (21 days remaining)</span>
+            <span class="deadline-badge">Mar 24, 2026  (20 days remaining)</span>
           </span>
         
 
@@ -6191,7 +5666,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">Mar 16, 2026  (13 days remaining)</span>
+            <span class="deadline-badge">Mar 16, 2026  (12 days remaining)</span>
           </span>
         
 
@@ -6252,7 +5727,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">Mar 10, 2026  (7 days remaining)</span>
+            <span class="deadline-badge">Mar 10, 2026  (6 days remaining)</span>
           </span>
         
 
@@ -6313,7 +5788,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
           <span>
             <span class="label">Deadline:</span>
-            <span class="deadline-badge">Mar 08, 2026  (5 days remaining)</span>
+            <span class="deadline-badge">Mar 08, 2026  (4 days remaining)</span>
           </span>
         
 
@@ -6348,6 +5823,10 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
   
 
+  
+
+  </div>
+
 </section>
 
 <section class="section" id="ontario_ca" style="--section-color: #1A6496">
@@ -6355,7 +5834,10 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     <span class="section-icon">ONT</span>
     <h2>Ontario.ca — Consultations Directory</h2>
     <span class="section-count">2 items</span>
+    <span class="section-toggle">&#9650;</span>
   </div>
+
+  <div class="section-body">
 
   
   <div class="section-note">Open and ongoing public consultations posted by the Ontario government.</div>
@@ -6488,6 +5970,10 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
   
 
+  
+
+  </div>
+
 </section>
 
 <section class="section" id="ola" style="--section-color: #5C3A1E">
@@ -6495,7 +5981,10 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     <span class="section-icon">OLA</span>
     <h2>Ontario Legislature — Committee Hearings</h2>
     <span class="section-count">0 items</span>
+    <span class="section-toggle">&#9650;</span>
   </div>
+
+  <div class="section-body">
 
   
   <div class="section-note">Active notices of public hearings by Ontario standing committees. When a committee is studying a bill or issue, it posts a notice here with hearing dates and a submission deadline.</div>
@@ -6505,6 +5994,10 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     <p class="empty-note">No entries found from this source today.</p>
   
 
+  
+
+  </div>
+
 </section>
 
 <section class="section" id="senate" style="--section-color: #6B3A8B">
@@ -6512,7 +6005,10 @@ Zuranolone is available in Canada by prescription only. This would continue to b
     <span class="section-icon">SEN</span>
     <h2>Senate of Canada — Active Committee Studies</h2>
     <span class="section-count">96 items</span>
+    <span class="section-toggle">&#9650;</span>
   </div>
+
+  <div class="section-body">
 
   
   <div class="section-note">Senate committees accept written briefs at any time during a study — no fixed deadline. Email ctm@sen.parl.gc.ca with the study title and committee name. Showing studies referred in the last 90 days first.</div>
@@ -6548,7 +6044,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 24, 2026  (7 days ago)
+            <span class="label">Study referred:</span> February 24, 2026  (8 days ago)
           </span>
         
 
@@ -6606,7 +6102,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 24, 2026  (7 days ago)
+            <span class="label">Study referred:</span> February 24, 2026  (8 days ago)
           </span>
         
 
@@ -6664,7 +6160,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 12, 2026  (19 days ago)
+            <span class="label">Study referred:</span> February 12, 2026  (20 days ago)
           </span>
         
 
@@ -6722,7 +6218,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 10, 2026  (21 days ago)
+            <span class="label">Study referred:</span> February 10, 2026  (22 days ago)
           </span>
         
 
@@ -6780,7 +6276,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 10, 2026  (21 days ago)
+            <span class="label">Study referred:</span> February 10, 2026  (22 days ago)
           </span>
         
 
@@ -6838,7 +6334,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 10, 2026  (21 days ago)
+            <span class="label">Study referred:</span> February 10, 2026  (22 days ago)
           </span>
         
 
@@ -6896,7 +6392,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 10, 2026  (21 days ago)
+            <span class="label">Study referred:</span> February 10, 2026  (22 days ago)
           </span>
         
 
@@ -6954,7 +6450,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 05, 2026  (26 days ago)
+            <span class="label">Study referred:</span> February 05, 2026  (27 days ago)
           </span>
         
 
@@ -7012,7 +6508,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 05, 2026  (26 days ago)
+            <span class="label">Study referred:</span> February 05, 2026  (27 days ago)
           </span>
         
 
@@ -7070,7 +6566,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 05, 2026  (26 days ago)
+            <span class="label">Study referred:</span> February 05, 2026  (27 days ago)
           </span>
         
 
@@ -7128,7 +6624,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 05, 2026  (26 days ago)
+            <span class="label">Study referred:</span> February 05, 2026  (27 days ago)
           </span>
         
 
@@ -7186,7 +6682,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> February 05, 2026  (26 days ago)
+            <span class="label">Study referred:</span> February 05, 2026  (27 days ago)
           </span>
         
 
@@ -7244,7 +6740,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> December 09, 2025  (84 days ago)
+            <span class="label">Study referred:</span> December 09, 2025  (85 days ago)
           </span>
         
 
@@ -7302,7 +6798,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7360,7 +6856,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7418,7 +6914,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7476,7 +6972,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7534,7 +7030,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7592,7 +7088,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7650,7 +7146,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7708,7 +7204,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7766,7 +7262,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7824,7 +7320,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7882,7 +7378,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7940,7 +7436,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 26, 2025  (97 days ago)
+            <span class="label">Study referred:</span> November 26, 2025  (98 days ago)
           </span>
         
 
@@ -7998,7 +7494,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 25, 2025  (98 days ago)
+            <span class="label">Study referred:</span> November 25, 2025  (99 days ago)
           </span>
         
 
@@ -8056,7 +7552,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 20, 2025  (103 days ago)
+            <span class="label">Study referred:</span> November 20, 2025  (104 days ago)
           </span>
         
 
@@ -8114,7 +7610,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 20, 2025  (103 days ago)
+            <span class="label">Study referred:</span> November 20, 2025  (104 days ago)
           </span>
         
 
@@ -8172,7 +7668,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 20, 2025  (103 days ago)
+            <span class="label">Study referred:</span> November 20, 2025  (104 days ago)
           </span>
         
 
@@ -8230,7 +7726,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 18, 2025  (105 days ago)
+            <span class="label">Study referred:</span> November 18, 2025  (106 days ago)
           </span>
         
 
@@ -8288,7 +7784,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 18, 2025  (105 days ago)
+            <span class="label">Study referred:</span> November 18, 2025  (106 days ago)
           </span>
         
 
@@ -8346,7 +7842,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 06, 2025  (117 days ago)
+            <span class="label">Study referred:</span> November 06, 2025  (118 days ago)
           </span>
         
 
@@ -8404,7 +7900,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 06, 2025  (117 days ago)
+            <span class="label">Study referred:</span> November 06, 2025  (118 days ago)
           </span>
         
 
@@ -8462,7 +7958,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> November 06, 2025  (117 days ago)
+            <span class="label">Study referred:</span> November 06, 2025  (118 days ago)
           </span>
         
 
@@ -8520,7 +8016,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 30, 2025  (124 days ago)
+            <span class="label">Study referred:</span> October 30, 2025  (125 days ago)
           </span>
         
 
@@ -8578,7 +8074,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 29, 2025  (125 days ago)
+            <span class="label">Study referred:</span> October 29, 2025  (126 days ago)
           </span>
         
 
@@ -8636,7 +8132,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 29, 2025  (125 days ago)
+            <span class="label">Study referred:</span> October 29, 2025  (126 days ago)
           </span>
         
 
@@ -8694,7 +8190,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 22, 2025  (132 days ago)
+            <span class="label">Study referred:</span> October 22, 2025  (133 days ago)
           </span>
         
 
@@ -8752,7 +8248,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 21, 2025  (133 days ago)
+            <span class="label">Study referred:</span> October 21, 2025  (134 days ago)
           </span>
         
 
@@ -8810,7 +8306,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 21, 2025  (133 days ago)
+            <span class="label">Study referred:</span> October 21, 2025  (134 days ago)
           </span>
         
 
@@ -8868,7 +8364,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -8926,7 +8422,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -8984,7 +8480,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -9042,7 +8538,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -9100,7 +8596,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -9158,7 +8654,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -9216,7 +8712,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -9274,7 +8770,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 08, 2025  (146 days ago)
+            <span class="label">Study referred:</span> October 08, 2025  (147 days ago)
           </span>
         
 
@@ -9332,7 +8828,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9390,7 +8886,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9448,7 +8944,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9506,7 +9002,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9564,7 +9060,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9622,7 +9118,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9680,7 +9176,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9738,7 +9234,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 07, 2025  (147 days ago)
+            <span class="label">Study referred:</span> October 07, 2025  (148 days ago)
           </span>
         
 
@@ -9796,7 +9292,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 02, 2025  (152 days ago)
+            <span class="label">Study referred:</span> October 02, 2025  (153 days ago)
           </span>
         
 
@@ -9854,7 +9350,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 02, 2025  (152 days ago)
+            <span class="label">Study referred:</span> October 02, 2025  (153 days ago)
           </span>
         
 
@@ -9912,7 +9408,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 02, 2025  (152 days ago)
+            <span class="label">Study referred:</span> October 02, 2025  (153 days ago)
           </span>
         
 
@@ -9970,7 +9466,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 02, 2025  (152 days ago)
+            <span class="label">Study referred:</span> October 02, 2025  (153 days ago)
           </span>
         
 
@@ -10028,7 +9524,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> October 02, 2025  (152 days ago)
+            <span class="label">Study referred:</span> October 02, 2025  (153 days ago)
           </span>
         
 
@@ -10086,7 +9582,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 25, 2025  (159 days ago)
+            <span class="label">Study referred:</span> September 25, 2025  (160 days ago)
           </span>
         
 
@@ -10144,7 +9640,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 25, 2025  (159 days ago)
+            <span class="label">Study referred:</span> September 25, 2025  (160 days ago)
           </span>
         
 
@@ -10202,7 +9698,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 25, 2025  (159 days ago)
+            <span class="label">Study referred:</span> September 25, 2025  (160 days ago)
           </span>
         
 
@@ -10260,7 +9756,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 25, 2025  (159 days ago)
+            <span class="label">Study referred:</span> September 25, 2025  (160 days ago)
           </span>
         
 
@@ -10318,7 +9814,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 25, 2025  (159 days ago)
+            <span class="label">Study referred:</span> September 25, 2025  (160 days ago)
           </span>
         
 
@@ -10376,7 +9872,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 25, 2025  (159 days ago)
+            <span class="label">Study referred:</span> September 25, 2025  (160 days ago)
           </span>
         
 
@@ -10434,7 +9930,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 25, 2025  (159 days ago)
+            <span class="label">Study referred:</span> September 25, 2025  (160 days ago)
           </span>
         
 
@@ -10492,7 +9988,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 24, 2025  (160 days ago)
+            <span class="label">Study referred:</span> September 24, 2025  (161 days ago)
           </span>
         
 
@@ -10550,7 +10046,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 24, 2025  (160 days ago)
+            <span class="label">Study referred:</span> September 24, 2025  (161 days ago)
           </span>
         
 
@@ -10608,7 +10104,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 24, 2025  (160 days ago)
+            <span class="label">Study referred:</span> September 24, 2025  (161 days ago)
           </span>
         
 
@@ -10666,7 +10162,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 24, 2025  (160 days ago)
+            <span class="label">Study referred:</span> September 24, 2025  (161 days ago)
           </span>
         
 
@@ -10724,7 +10220,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 24, 2025  (160 days ago)
+            <span class="label">Study referred:</span> September 24, 2025  (161 days ago)
           </span>
         
 
@@ -10782,7 +10278,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 24, 2025  (160 days ago)
+            <span class="label">Study referred:</span> September 24, 2025  (161 days ago)
           </span>
         
 
@@ -10840,7 +10336,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> September 23, 2025  (161 days ago)
+            <span class="label">Study referred:</span> September 23, 2025  (162 days ago)
           </span>
         
 
@@ -10898,7 +10394,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 25, 2025  (251 days ago)
+            <span class="label">Study referred:</span> June 25, 2025  (252 days ago)
           </span>
         
 
@@ -10956,7 +10452,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 19, 2025  (257 days ago)
+            <span class="label">Study referred:</span> June 19, 2025  (258 days ago)
           </span>
         
 
@@ -11014,7 +10510,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 18, 2025  (258 days ago)
+            <span class="label">Study referred:</span> June 18, 2025  (259 days ago)
           </span>
         
 
@@ -11072,7 +10568,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 18, 2025  (258 days ago)
+            <span class="label">Study referred:</span> June 18, 2025  (259 days ago)
           </span>
         
 
@@ -11130,7 +10626,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 16, 2025  (260 days ago)
+            <span class="label">Study referred:</span> June 16, 2025  (261 days ago)
           </span>
         
 
@@ -11188,7 +10684,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 12, 2025  (264 days ago)
+            <span class="label">Study referred:</span> June 12, 2025  (265 days ago)
           </span>
         
 
@@ -11246,7 +10742,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 12, 2025  (264 days ago)
+            <span class="label">Study referred:</span> June 12, 2025  (265 days ago)
           </span>
         
 
@@ -11304,7 +10800,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 12, 2025  (264 days ago)
+            <span class="label">Study referred:</span> June 12, 2025  (265 days ago)
           </span>
         
 
@@ -11362,7 +10858,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 12, 2025  (264 days ago)
+            <span class="label">Study referred:</span> June 12, 2025  (265 days ago)
           </span>
         
 
@@ -11420,7 +10916,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 11, 2025  (265 days ago)
+            <span class="label">Study referred:</span> June 11, 2025  (266 days ago)
           </span>
         
 
@@ -11478,7 +10974,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 11, 2025  (265 days ago)
+            <span class="label">Study referred:</span> June 11, 2025  (266 days ago)
           </span>
         
 
@@ -11536,7 +11032,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> June 04, 2025  (272 days ago)
+            <span class="label">Study referred:</span> June 04, 2025  (273 days ago)
           </span>
         
 
@@ -11594,7 +11090,7 @@ Zuranolone is available in Canada by prescription only. This would continue to b
         
         
           <span>
-            <span class="label">Study referred:</span> May 29, 2025  (278 days ago)
+            <span class="label">Study referred:</span> May 29, 2025  (279 days ago)
           </span>
         
 
@@ -12091,17 +11587,44 @@ Zuranolone is available in Canada by prescription only. This would continue to b
 
   
 
+  
+
+  </div>
+
 </section>
 
 
 </main>
 
 <footer class="page-footer">
-  Generated March 03, 2026 &nbsp;·&nbsp;
+  Generated March 04, 2026 &nbsp;·&nbsp;
   Sources: Canada Gazette Part&nbsp;I &middot; Canada.ca &middot;
   House of Commons &middot; Senate of Canada &middot;
   Ontario Regulatory Registry &middot; Ontario.ca &middot; Ontario Legislature
 </footer>
+
+<script>
+  // ── Urgency filter buttons ────────────────────────────────────────────────
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      btn.classList.toggle('active');
+      var show = btn.classList.contains('active');
+      document.querySelectorAll('.urgency-' + btn.dataset.urgency).forEach(function(item) {
+        item.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // ── Collapsible section headers ───────────────────────────────────────────
+  document.querySelectorAll('.section-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      var section = header.closest('.section');
+      var toggle  = header.querySelector('.section-toggle');
+      section.classList.toggle('collapsed');
+      toggle.innerHTML = section.classList.contains('collapsed') ? '&#9660;' : '&#9650;';
+    });
+  });
+</script>
 
 </body>
 </html>
