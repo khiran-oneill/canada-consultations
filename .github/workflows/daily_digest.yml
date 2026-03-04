@@ -8,7 +8,8 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - 'docs/index.html'   # don't re-trigger when the workflow commits the digest
+      - 'docs/index.html'       # don't re-trigger when the workflow commits the digest
+      - 'previous_items.json'   # don't re-trigger when the workflow saves item history
 
 jobs:
   generate:
@@ -41,6 +42,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/index.html
+          git add docs/index.html previous_items.json
           git commit -m "Digest: $(date +%Y-%m-%d)" || echo "No changes to commit"
           git push

@@ -12,6 +12,7 @@ The output file is saved as:  digest_YYYY-MM-DD.html
 
 import sys
 import re
+import json
 from datetime import date, datetime, timedelta
 from jinja2 import Environment, BaseLoader
 
@@ -116,6 +117,24 @@ BLOCKLIST = [
 ]
 
 
+# ── "New today" tracking ──────────────────────────────────────────────────────
+
+PREVIOUS_ITEMS_FILE = "previous_items.json"
+
+def load_previous_keys() -> set:
+    """Load item keys from the last run, or empty set if first run."""
+    try:
+        with open(PREVIOUS_ITEMS_FILE, "r", encoding="utf-8") as f:
+            return set(json.load(f).get("keys", []))
+    except (FileNotFoundError, ValueError):
+        return set()
+
+def save_current_keys(keys: list) -> None:
+    """Persist current item keys so tomorrow's run can detect new arrivals."""
+    with open(PREVIOUS_ITEMS_FILE, "w", encoding="utf-8") as f:
+        json.dump({"date": date.today().isoformat(), "keys": sorted(keys)}, f, indent=2)
+
+
 def is_filtered(item: dict) -> bool:
     """Return True if this item's title matches a blocklist phrase."""
     title = item.get("title", "").lower()
@@ -172,6 +191,8 @@ def collect_all() -> dict:
     """
     sections = []
     total = 0
+    previous_keys = load_previous_keys()
+    current_keys  = []
 
     senate_cutoff = (date.today() - timedelta(days=30)).strftime("%B %d, %Y")
 
@@ -267,6 +288,10 @@ def collect_all() -> dict:
                 filtered_titles.append(item.get("title", ""))
             else:
                 item["_urgency"] = urgency(item)
+                key = f"{item.get('source', '')}|{item.get('title', '')}"
+                item["_key"]    = key
+                item["_is_new"] = key not in previous_keys
+                current_keys.append(key)
                 shown.append(item)
 
         sections.append({
@@ -284,7 +309,16 @@ def collect_all() -> dict:
         filtered_note = f", {len(filtered_titles)} filtered" if filtered_titles else ""
         print(f"    -> {len(shown)} item(s){filtered_note}")
 
-    return {"sections": sections, "total": total, "today": date.today()}
+    save_current_keys(current_keys)
+    new_count    = sum(1 for s in sections for i in s["entries"] if i.get("_is_new"))
+    urgent_count = sum(1 for s in sections for i in s["entries"] if i.get("_urgency") == "urgent")
+    return {
+        "sections":     sections,
+        "total":        total,
+        "today":        date.today(),
+        "new_count":    new_count,
+        "urgent_count": urgent_count,
+    }
 
 
 # ── Jinja2 HTML template ──────────────────────────────────────────────────────
@@ -539,6 +573,71 @@ TEMPLATE = """<!DOCTYPE html>
       line-height: 1.7;
     }
 
+    /* ── NEW badge ── */
+    .badge-new {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      background: #2E7D32;
+      color: #fff;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+      vertical-align: middle;
+      margin-right: 0.35rem;
+    }
+
+    /* ── Star button ── */
+    .item { position: relative; }
+    .star-btn {
+      position: absolute;
+      top: 0.7rem;
+      right: 0.75rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0;
+      color: #ccc;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    .star-btn:hover, .star-btn.starred { color: #E8A020; }
+
+    /* ── Change summary pills ── */
+    .change-summary {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .change-pill {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.15rem 0.65rem;
+      border-radius: 20px;
+    }
+    .change-pill.pill-new    { background: rgba(255,255,255,0.2); color: #fff; }
+    .change-pill.pill-urgent { background: #C8102E; color: #fff; }
+
+    /* ── Search box ── */
+    .search-wrap {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+    .search-wrap input {
+      font-family: inherit;
+      font-size: 0.82rem;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 0.2rem 0.8rem;
+      width: 210px;
+      outline: none;
+    }
+    .search-wrap input:focus { border-color: #26374A; box-shadow: 0 0 0 2px #26374a22; }
+    @media (max-width: 600px) { .search-wrap input { width: 130px; } }
+
     /* ── Footer ── */
     .page-footer {
       text-align: center;
@@ -581,6 +680,16 @@ TEMPLATE = """<!DOCTYPE html>
   <h1>Canadian Consultations Digest</h1>
   <div class="subtitle">{{ today.strftime('%A, %B %d, %Y') }} &nbsp;·&nbsp; Eight sources checked</div>
   <div class="total-badge">{{ total }} item{{ 's' if total != 1 else '' }} found</div>
+  {% if new_count > 0 or urgent_count > 0 %}
+  <div class="change-summary">
+    {% if new_count > 0 %}
+      <span class="change-pill pill-new">{{ new_count }} new since yesterday</span>
+    {% endif %}
+    {% if urgent_count > 0 %}
+      <span class="change-pill pill-urgent">{{ urgent_count }} closing within 7 days</span>
+    {% endif %}
+  </div>
+  {% endif %}
 </header>
 
 <!-- ── Sticky bar: TOC + urgency filters ───────────────────────────── -->
@@ -597,6 +706,10 @@ TEMPLATE = """<!DOCTYPE html>
   <button class="filter-btn active" data-urgency="soon"   style="--btn-color:#E87722">&lt;30 days</button>
   <button class="filter-btn active" data-urgency="open"   style="--btn-color:#2E7D32">30+ days</button>
   <button class="filter-btn active" data-urgency="ongoing" style="--btn-color:#6B3A8B">No fixed deadline</button>
+  <button class="filter-btn" id="starred-filter" style="--btn-color:#E8A020">&#9733; Starred</button>
+  <div class="search-wrap">
+    <input type="search" id="search-input" placeholder="Search consultations..." autocomplete="off">
+  </div>
 </div>
 </div>{# end .sticky-bar #}
 
@@ -625,8 +738,11 @@ TEMPLATE = """<!DOCTYPE html>
 
     <article class="item urgency-{{ item._urgency }}">
 
+      <button class="star-btn" data-key="{{ item._key | e }}" title="Save for later">&#9734;</button>
+
       {# ── Title ── #}
       <div class="item-title">
+        {% if item._is_new %}<span class="badge-new">NEW</span>{% endif %}
         {% if primary_url %}
           <a href="{{ primary_url }}" target="_blank" rel="noopener">{{ item.title }}</a>
         {% else %}
@@ -727,18 +843,69 @@ TEMPLATE = """<!DOCTYPE html>
 </footer>
 
 <script>
-  // ── Urgency filter buttons ────────────────────────────────────────────────
-  document.querySelectorAll('.filter-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      btn.classList.toggle('active');
-      var show = btn.classList.contains('active');
-      document.querySelectorAll('.urgency-' + btn.dataset.urgency).forEach(function(item) {
-        item.style.display = show ? '' : 'none';
-      });
+  // ── State ─────────────────────────────────────────────────────────────────
+  var activeUrgencies = new Set(['urgent', 'soon', 'open', 'ongoing']);
+  var showOnlyStarred = false;
+
+  // ── Starred items (localStorage) ──────────────────────────────────────────
+  function isStarred(key) { return localStorage.getItem('star::' + key) === '1'; }
+  function toggleStar(key) {
+    if (isStarred(key)) { localStorage.removeItem('star::' + key); }
+    else                { localStorage.setItem('star::' + key, '1'); }
+  }
+
+  document.querySelectorAll('.star-btn').forEach(function(btn) {
+    if (isStarred(btn.dataset.key)) {
+      btn.innerHTML = '&#9733;';
+      btn.classList.add('starred');
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleStar(btn.dataset.key);
+      var starred = isStarred(btn.dataset.key);
+      btn.classList.toggle('starred', starred);
+      btn.innerHTML = starred ? '&#9733;' : '&#9734;';
+      updateVisibility();
     });
   });
 
-  // ── Collapsible section headers ───────────────────────────────────────────
+  // ── Master visibility function ─────────────────────────────────────────────
+  function updateVisibility() {
+    var term = (document.getElementById('search-input').value || '').toLowerCase().trim();
+    document.querySelectorAll('.item').forEach(function(item) {
+      var urgencyClass = Array.from(item.classList)
+            .find(function(c) { return c.startsWith('urgency-'); }) || '';
+      var urgency   = urgencyClass.replace('urgency-', '');
+      var starBtn   = item.querySelector('.star-btn');
+      var urgencyOk = activeUrgencies.has(urgency);
+      var textOk    = !term || item.textContent.toLowerCase().includes(term);
+      var starOk    = !showOnlyStarred || (starBtn && starBtn.classList.contains('starred'));
+      item.style.display = (urgencyOk && textOk && starOk) ? '' : 'none';
+    });
+  }
+
+  // ── Urgency filter buttons ─────────────────────────────────────────────────
+  document.querySelectorAll('.filter-btn[data-urgency]').forEach(function(btn) {
+    if (btn.id === 'starred-filter') return;
+    btn.addEventListener('click', function() {
+      btn.classList.toggle('active');
+      if (btn.classList.contains('active')) { activeUrgencies.add(btn.dataset.urgency); }
+      else                                  { activeUrgencies.delete(btn.dataset.urgency); }
+      updateVisibility();
+    });
+  });
+
+  // ── Starred filter ─────────────────────────────────────────────────────────
+  document.getElementById('starred-filter').addEventListener('click', function() {
+    showOnlyStarred = !showOnlyStarred;
+    this.classList.toggle('active', showOnlyStarred);
+    updateVisibility();
+  });
+
+  // ── Search ─────────────────────────────────────────────────────────────────
+  document.getElementById('search-input').addEventListener('input', updateVisibility);
+
+  // ── Collapsible section headers ────────────────────────────────────────────
   document.querySelectorAll('.section-header').forEach(function(header) {
     header.addEventListener('click', function() {
       var section = header.closest('.section');
