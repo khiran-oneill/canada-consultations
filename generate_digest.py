@@ -216,9 +216,9 @@ def save_current_keys(keys: list) -> None:
 
 
 def is_filtered(item: dict) -> bool:
-    """Return True if this item's title matches a blocklist phrase."""
-    title = item.get("title", "").lower()
-    return any(phrase in title for phrase in BLOCKLIST)
+    """Return True if this item's title or summary matches a blocklist phrase."""
+    text = (item.get("title", "") + " " + item.get("summary", "")).lower()
+    return any(phrase in text for phrase in BLOCKLIST)
 
 
 # ── Urgency helpers ───────────────────────────────────────────────────────────
