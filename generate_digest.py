@@ -25,6 +25,8 @@ import fetch_ontario
 import fetch_ontario_ca
 import fetch_ola
 import fetch_finance
+import fetch_crtc
+import fetch_nhc
 
 # ── Content filter ───────────────────────────────────────────────────────────
 #
@@ -349,6 +351,22 @@ def collect_all() -> dict:
             "color":    "#1D4E2B",
             "fetch":    fetch_finance.fetch,
             "note":     "Active public consultations from the Department of Finance Canada.",
+        },
+        {
+            "id":       "crtc",
+            "label":    "CRTC — Open Consultations",
+            "icon":     "CRTC",
+            "color":    "#003366",
+            "fetch":    fetch_crtc.fetch,
+            "note":     "Consultations currently open for public comment at the Canadian Radio-television and Telecommunications Commission.",
+        },
+        {
+            "id":       "nhc",
+            "label":    "National Housing Council — Review Panel Hearings",
+            "icon":     "NHC",
+            "color":    "#5B2D8E",
+            "fetch":    fetch_nhc.fetch,
+            "note":     "Active written hearing opportunities from National Housing Council review panels. Submissions may be made through the NHC website.",
         },
     ]
 
