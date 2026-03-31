@@ -196,6 +196,30 @@ BLOCKLIST = [
     "miscellaneous amendments",       # Regulatory housekeeping notices
     "corrections and errata",         # Gazette corrections, never substantive
     "tariff item",                    # Customs tariff technical amendments
+
+    # ── Drinking water chemistry (technical standards only) ───────────────────
+    "drinking water guideline",       # Health Canada DW quality guidelines (technical)
+    "drinking water standard",        # Technical DW quality standards
+    "drinking water quality guideline",# Long form of the above
+    "drinking water treatment",       # Treatment plant technical standards
+    "chloramine",                     # Specific disinfection byproduct rules
+    "chlorination",                   # Water chlorination technical rules
+    "trihalomethane",                 # THM drinking water chemistry
+    "haloacetic acid",                # HAA drinking water chemistry
+    "fluoride guideline",             # Fluoride guideline updates
+    "nitrate guideline",              # Nitrate drinking water guideline
+    "arsenic guideline",              # Arsenic drinking water guideline
+    "lead in drinking water",         # Lead DW guideline (technical)
+]
+
+# ── Department-level filter ───────────────────────────────────────────────────
+#
+# Items whose `department` field contains any of these strings (case-insensitive)
+# are treated the same as BLOCKLIST matches — hidden from the digest.
+
+DEPT_BLOCKLIST = [
+    "canadian food inspection agency",  # CFIA — technical food/feed/plant regs
+    "food inspection",                  # Catches short-form references
 ]
 
 
@@ -218,9 +242,44 @@ def save_current_keys(keys: list) -> None:
 
 
 def is_filtered(item: dict) -> bool:
-    """Return True if this item's title or summary matches a blocklist phrase."""
+    """Return True if this item should be hidden from the digest."""
     text = (item.get("title", "") + " " + item.get("summary", "")).lower()
-    return any(phrase in text for phrase in BLOCKLIST)
+    if any(phrase in text for phrase in BLOCKLIST):
+        return True
+    dept = (item.get("department", "") + " " + item.get("committee", "")).lower()
+    if any(phrase in dept for phrase in DEPT_BLOCKLIST):
+        return True
+    return False
+
+
+# ── Broken-link checker ───────────────────────────────────────────────────────
+
+import requests as _requests
+
+# Source IDs that should have their primary URL checked for breakage.
+LINK_CHECK_SOURCES = {"hoc", "canada_ca"}
+
+def _is_broken(url: str) -> bool:
+    """
+    Return True only if the server explicitly returns HTTP 404 for this URL.
+    Connection errors (SSL, timeout, DNS) are NOT flagged — they are machine-
+    or network-specific and resolve fine on the GitHub Actions runner.
+    Tries HEAD first; falls back to a streaming GET if the server rejects HEAD.
+    Uses a short timeout so a slow server doesn't stall the whole run.
+    """
+    if not url or not url.startswith("http"):
+        return False
+    try:
+        r = _requests.head(url, timeout=5, allow_redirects=True,
+                           headers={"User-Agent": "canada-consultations-bot/1.0"})
+        if r.status_code == 405:
+            # Server doesn't accept HEAD — try a streaming GET (don't download body)
+            r = _requests.get(url, timeout=5, stream=True, allow_redirects=True,
+                              headers={"User-Agent": "canada-consultations-bot/1.0"})
+            r.close()
+        return r.status_code == 404
+    except _requests.RequestException:
+        return False  # network/SSL/timeout issues are not genuine broken links
 
 
 # ── Urgency helpers ───────────────────────────────────────────────────────────
@@ -378,10 +437,23 @@ def collect_all() -> dict:
             print(f"    [warning] Failed — skipping this source: {e}", file=sys.stderr)
             items = []
 
+        # Check for broken links on selected sources (HoC and Canada.ca only)
+        do_link_check = src["id"] in LINK_CHECK_SOURCES
+        if do_link_check and items:
+            print(f"    Checking {len(items)} link(s) ...")
+
         # Split into shown and filtered, tag shown items with urgency
         shown = []
         filtered_titles = []
+        today = date.today()
         for item in items:
+            # Universal expired-deadline guard — catches items the scrapers
+            # missed (e.g. "Planned" rows with a past end date from Canada.ca).
+            deadline_date = _extract_date(item.get("deadline", ""))
+            if deadline_date is not None and deadline_date < today:
+                filtered_titles.append(item.get("title", ""))
+                continue
+
             if is_filtered(item):
                 filtered_titles.append(item.get("title", ""))
             else:
@@ -390,6 +462,11 @@ def collect_all() -> dict:
                 item["_key"]    = key
                 item["_is_new"] = key not in previous_keys
                 current_keys.append(key)
+                # Flag broken primary URLs for HoC and Canada.ca
+                if do_link_check:
+                    item["_broken"] = _is_broken(item.get("url", ""))
+                else:
+                    item["_broken"] = False
                 shown.append(item)
 
         sections.append({
@@ -685,6 +762,20 @@ TEMPLATE = """<!DOCTYPE html>
       margin-right: 0.35rem;
     }
 
+    .badge-broken {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: #b71c1c;
+      color: #fff;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+      vertical-align: middle;
+      margin-right: 0.35rem;
+      cursor: help;
+    }
+
     /* ── Change summary pills ── */
     .change-summary {
       display: flex;
@@ -821,6 +912,7 @@ TEMPLATE = """<!DOCTYPE html>
       {# ── Title ── #}
       <div class="item-title">
         {% if item._is_new %}<span class="badge-new">NEW</span>{% endif %}
+        {% if item._broken %}<span class="badge-broken" title="This link returned a 404 or could not be reached">&#9888; Broken link</span>{% endif %}
         {% if primary_url %}
           <a href="{{ primary_url }}" target="_blank" rel="noopener">{{ item.title }}</a>
         {% else %}
@@ -875,6 +967,9 @@ TEMPLATE = """<!DOCTYPE html>
       <div class="item-links">
         {% if primary_url %}
           <a href="{{ primary_url }}" target="_blank" rel="noopener">View / Comment</a>
+        {% endif %}
+        {% if item.news_url %}
+          <a href="{{ item.news_url }}" target="_blank" rel="noopener">News release</a>
         {% endif %}
         {% if item.study_url and item.study_url != primary_url %}
           <a href="{{ item.study_url }}" target="_blank" rel="noopener">Study page</a>

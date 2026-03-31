@@ -153,6 +153,15 @@ def get_brief_details(study: dict) -> dict | None:
         f"{committee_lower}/{study['activity_id']}"
     )
 
+    # Look for a news release link on this page — it appears as a DocumentViewer
+    # link containing "news-release" in the path.  Not every study has one.
+    news_url = None
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if "DocumentViewer" in href and "news-release" in href.lower():
+            news_url = ("https:" + href) if href.startswith("//") else href
+            break
+
     # Pull the full page title for a cleaner study name
     page_title = soup.find("h1")
     full_title = page_title.get_text(" ", strip=True) if page_title else study["title"]
@@ -177,6 +186,7 @@ def get_brief_details(study: dict) -> dict | None:
         "deadline":     deadline_str,
         "url":          submit_url,
         "study_url":    study["study_url"],
+        "news_url":     news_url,           # news release if the committee issued one
     }
 
 

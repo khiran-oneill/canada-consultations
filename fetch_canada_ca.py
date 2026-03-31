@@ -27,7 +27,7 @@ STATUS_PLANNED = "P"   # upcoming — not yet open
 
 # Include planned consultations in the output so you can prepare in advance.
 # Set to False if you only want currently-open ones.
-INCLUDE_PLANNED = True
+INCLUDE_PLANNED = False
 
 HEADERS = {
     "User-Agent": (
@@ -127,10 +127,10 @@ def fetch_consultations() -> list[dict]:
             end_date_obj = date(9999, 12, 31)
             still_open = True   # no deadline listed — assume still open
 
-        # The government's CSV leaves many expired entries marked as "Open".
-        # For "Open" status rows, skip any whose deadline has already passed.
-        # (Planned rows have a future start date so we always keep them.)
-        if status == STATUS_OPEN and not still_open:
+        # Skip anything whose deadline has already passed, regardless of status tag.
+        # The government's CSV sometimes leaves expired "Open" entries in the feed,
+        # and "Planned" entries occasionally have past end dates too.
+        if not still_open:
             continue
 
         results.append({
