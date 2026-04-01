@@ -100,6 +100,7 @@ BLOCKLIST = [
     "product monograph",              # Drug product monograph updates
     "excipient",                      # Drug formulation ingredient approvals
     "dissolution",                    # Drug dissolution testing standards
+    "prescription drug list",         # Prescription drug scheduling/listing notices
 
     # ── Food safety technical ─────────────────────────────────────────────────
     "microbiological",                # Microbiological criteria for food
@@ -158,7 +159,11 @@ BLOCKLIST = [
 
     # ── Nuclear & radiation ───────────────────────────────────────────────────
     "nuclear substance",              # Nuclear substance regulations
+    "nuclear material",               # Nuclear materials handling regulations
     "radioactive",                    # Radioactive waste, nuclear technical items
+
+    # ── Explosives & ordnance ─────────────────────────────────────────────────
+    "explosives",                     # Explosives regulations and licensing
 
     # ── Transport technical ───────────────────────────────────────────────────
     "airworthiness",                  # Aviation airworthiness directives
