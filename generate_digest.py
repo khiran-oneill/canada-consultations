@@ -256,8 +256,8 @@ def is_filtered(item: dict) -> bool:
 
 import requests as _requests
 
-# Source IDs that should have their primary URL checked for breakage.
-LINK_CHECK_SOURCES = {"hoc", "canada_ca"}
+# Only HoC new-item links are checked — typically 0–3 per run, negligible overhead.
+LINK_CHECK_SOURCES = {"hoc"}
 
 def _is_broken(url: str) -> bool:
     """
@@ -437,10 +437,7 @@ def collect_all() -> dict:
             print(f"    [warning] Failed — skipping this source: {e}", file=sys.stderr)
             items = []
 
-        # Check for broken links on selected sources (HoC and Canada.ca only)
         do_link_check = src["id"] in LINK_CHECK_SOURCES
-        if do_link_check and items:
-            print(f"    Checking {len(items)} link(s) ...")
 
         # Split into shown and filtered, tag shown items with urgency
         shown = []
@@ -462,11 +459,11 @@ def collect_all() -> dict:
                 item["_key"]    = key
                 item["_is_new"] = key not in previous_keys
                 current_keys.append(key)
-                # Flag broken primary URLs for HoC and Canada.ca
-                if do_link_check:
-                    item["_broken"] = _is_broken(item.get("url", ""))
-                else:
-                    item["_broken"] = False
+                # Check for broken links only on new HoC items (0–3 per run)
+                item["_broken"] = (
+                    do_link_check and item["_is_new"]
+                    and _is_broken(item.get("url", ""))
+                )
                 shown.append(item)
 
         sections.append({
