@@ -363,6 +363,27 @@ def collect_all() -> dict:
             "note":     "Showing open consultations with future deadlines, sorted soonest first.",
         },
         {
+            "id":       "senate",
+            "label":    "Senate of Canada — Active Committee Studies",
+            "icon":     "SEN",
+            "color":    "#6B3A8B",
+            "fetch":    fetch_senate.fetch_studies,
+            "note":     (
+                f"Showing only Senate committee studies referred since {senate_cutoff} (last 30 days). "
+                f"Studies referred before that date are not shown here, but may still be active. "
+                f"Senate committees accept written briefs at any time during a study — no fixed deadline. "
+                f"To submit, email ctm@sen.parl.gc.ca with the study title and committee name."
+            ),
+        },
+        {
+            "id":       "finance",
+            "label":    "Department of Finance Canada — Consultations",
+            "icon":     "FIN",
+            "color":    "#1D4E2B",
+            "fetch":    fetch_finance.fetch,
+            "note":     "Active public consultations from the Department of Finance Canada.",
+        },
+        {
             "id":       "ontario",
             "label":    "Ontario Regulatory Registry — Open Proposals",
             "icon":     "ON",
@@ -391,32 +412,12 @@ def collect_all() -> dict:
             ),
         },
         {
-            "id":       "senate",
-            "label":    "Senate of Canada — Active Committee Studies",
-            "icon":     "SEN",
-            "color":    "#6B3A8B",
-            "fetch":    fetch_senate.fetch_studies,
-            "note":     (
-                f"Showing only Senate committee studies referred since {senate_cutoff} (last 30 days). "
-                f"Studies referred before that date are not shown here, but may still be active. "
-                f"Senate committees accept written briefs at any time during a study — no fixed deadline. "
-                f"To submit, email ctm@sen.parl.gc.ca with the study title and committee name."
-            ),
-        },
-        {
-            "id":       "finance",
-            "label":    "Department of Finance Canada — Consultations",
-            "icon":     "FIN",
-            "color":    "#1D4E2B",
-            "fetch":    fetch_finance.fetch,
-            "note":     "Active public consultations from the Department of Finance Canada.",
-        },
-        {
             "id":       "crtc",
             "label":    "CRTC — Open Consultations",
             "icon":     "CRTC",
             "color":    "#003366",
             "fetch":    fetch_crtc.fetch,
+            "group":    "others",
             "note":     "Consultations currently open for public comment at the Canadian Radio-television and Telecommunications Commission.",
         },
         {
@@ -425,6 +426,7 @@ def collect_all() -> dict:
             "icon":     "NHC",
             "color":    "#5B2D8E",
             "fetch":    fetch_nhc.fetch,
+            "group":    "others",
             "note":     "Active written hearing opportunities from National Housing Council review panels. Submissions may be made through the NHC website.",
         },
     ]
@@ -472,6 +474,7 @@ def collect_all() -> dict:
             "icon":            src["icon"],
             "color":           src["color"],
             "note":            src["note"],
+            "group":           src.get("group", ""),
             "entries":         shown,
             "count":           len(shown),
             "filtered_count":  len(filtered_titles),
@@ -480,6 +483,33 @@ def collect_all() -> dict:
         total += len(shown)
         filtered_note = f", {len(filtered_titles)} filtered" if filtered_titles else ""
         print(f"    -> {len(shown)} item(s){filtered_note}")
+
+    # Merge sources marked group="others" into a single combined section
+    others_entries         = []
+    others_filtered_titles = []
+    others_filtered_count  = 0
+    main_sections          = []
+    for sec in sections:
+        if sec.get("group") == "others":
+            others_entries.extend(sec["entries"])
+            others_filtered_titles.extend(sec["filtered_titles"])
+            others_filtered_count += sec["filtered_count"]
+        else:
+            main_sections.append(sec)
+    if others_entries or others_filtered_count:
+        others_count = len(others_entries)
+        main_sections.append({
+            "id":              "others",
+            "label":           "Other Sources",
+            "icon":            "+",
+            "color":           "#555555",
+            "note":            "CRTC open consultations and National Housing Council review panel hearings.",
+            "entries":         others_entries,
+            "count":           others_count,
+            "filtered_count":  others_filtered_count,
+            "filtered_titles": others_filtered_titles,
+        })
+    sections = main_sections
 
     save_current_keys(current_keys)
     new_count    = sum(1 for s in sections for i in s["entries"] if i.get("_is_new"))
@@ -847,7 +877,7 @@ TEMPLATE = """<!DOCTYPE html>
 <!-- ── Page header ─────────────────────────────────────────────────── -->
 <header class="page-header">
   <h1>Canadian Consultations Digest</h1>
-  <div class="subtitle">{{ today.strftime('%A, %B %d, %Y') }} &nbsp;·&nbsp; Eight sources checked</div>
+  <div class="subtitle">{{ today.strftime('%A, %B %d, %Y') }} &nbsp;·&nbsp; Ten sources checked</div>
   <div class="total-badge">{{ total }} item{{ 's' if total != 1 else '' }} found</div>
   {% if new_count > 0 or urgent_count > 0 %}
   <div class="change-summary">
