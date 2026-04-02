@@ -501,19 +501,18 @@ def collect_all() -> dict:
             others_filtered_count += sec["filtered_count"]
         else:
             main_sections.append(sec)
-    if others_entries or others_filtered_count:
-        others_count = len(others_entries)
-        main_sections.append({
-            "id":              "others",
-            "label":           "Other Sources",
-            "icon":            "+",
-            "color":           "#555555",
-            "note":            "CRTC open consultations and National Housing Council review panel hearings.",
-            "entries":         others_entries,
-            "count":           others_count,
-            "filtered_count":  others_filtered_count,
-            "filtered_titles": others_filtered_titles,
-        })
+    others_count = len(others_entries)
+    main_sections.append({
+        "id":              "others",
+        "label":           "Other Sources",
+        "icon":            "+",
+        "color":           "#555555",
+        "note":            "CRTC open consultations and National Housing Council review panel hearings.",
+        "entries":         others_entries,
+        "count":           others_count,
+        "filtered_count":  others_filtered_count,
+        "filtered_titles": others_filtered_titles,
+    })
     sections = main_sections
 
     save_current_keys(current_keys)
